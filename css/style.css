@@ -240,6 +240,17 @@ header .lead {
     background-color: rgba(147, 112, 219, 0.05) !important;
 }
 
+.bg-pink {
+    background-color: #ffb6c1;
+    /* 这是浅粉色 */
+    padding: 3rem 0;
+}
+
+.bg-pink h2 {
+    color: #333;
+    /* 确保标题在粉色背景上清晰可见 */
+}
+
 /* 按钮样式 - 触摸友好 */
 .btn {
     padding: 12px 20px;
@@ -669,4 +680,9 @@ footer p {
     footer {
         padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
+}
+
+.text-pink {
+    color: #ff69b4;
+    /* 热粉色，您可以根据需要调整 */
 }
