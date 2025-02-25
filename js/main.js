@@ -108,6 +108,11 @@ function initResponsiveBehavior() {
 
     // 如果页面存在这些元素
     if (navbar && navbarCollapse && navbarToggler) {
+        // 确保导航栏在页面加载时默认收起
+        if (navbarCollapse.classList.contains('show')) {
+            navbarCollapse.classList.remove('show');
+        }
+
         // 页面滚动时收起已展开的导航菜单
         window.addEventListener('scroll', function () {
             if (navbarCollapse.classList.contains('show')) {
@@ -124,6 +129,14 @@ function initResponsiveBehavior() {
                     navbarToggler.click();
                 }
             });
+        });
+
+        // 处理点击页面其他区域时收起导航菜单
+        document.addEventListener('click', function (event) {
+            // 如果点击的不是导航栏内的元素且导航栏是展开的
+            if (!navbar.contains(event.target) && navbarCollapse.classList.contains('show')) {
+                navbarToggler.click();
+            }
         });
     }
 
