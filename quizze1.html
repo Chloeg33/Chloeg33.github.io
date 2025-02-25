@@ -9,6 +9,9 @@
     <title>Academic Vocabulary Test | Chloe's Classroom Space Station</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Firebase SDK 引入 -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         /* 测验特定样式 */
         .question {
@@ -187,6 +190,187 @@
             box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
         }
 
+        /* 欢迎模态框样式 */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .welcome-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .welcome-content {
+            background: white;
+            padding: 30px;
+            border-radius: var(--apple-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .welcome-modal.show .welcome-content {
+            transform: translateY(0);
+        }
+
+        .welcome-content h2 {
+            color: var(--main-pink);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .nickname-input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .nickname-input:focus {
+            border-color: var(--main-pink);
+            box-shadow: 0 0 0 2px rgba(255, 107, 158, 0.2);
+            outline: none;
+        }
+
+        .start-btn {
+            padding: 12px 40px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+            font-weight: 500;
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
+        }
+
+        /* 排行榜样式 */
+        .leaderboard {
+            margin-top: 30px;
+            background: white;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--apple-border);
+            transition: background 0.2s;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(147, 112, 219, 0.05);
+        }
+
+        .leaderboard-rank {
+            font-weight: 600;
+            font-size: 1.2rem;
+            width: 40px;
+            text-align: center;
+        }
+
+        .leaderboard-name {
+            flex: 1;
+            padding: 0 15px;
+            font-weight: 500;
+        }
+
+        .leaderboard-score {
+            font-weight: 600;
+            color: var(--main-pink);
+            width: 80px;
+            text-align: right;
+        }
+
+        .leaderboard-accuracy {
+            width: 100px;
+            text-align: right;
+            padding-left: 10px;
+        }
+
+        .user-highlight {
+            background: rgba(255, 107, 158, 0.1);
+            border-left: 3px solid var(--main-pink);
+        }
+
+        /* 排行榜查看按钮 */
+        .view-leaderboard-btn {
+            background: transparent;
+            color: var(--main-pink);
+            border: 1px solid var(--main-pink);
+            padding: 10px 20px;
+            border-radius: var(--apple-radius-sm);
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-leaderboard-btn:hover {
+            background: rgba(255, 107, 158, 0.1);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* 移动端优化 */
         @media (max-width: 768px) {
             .question {
@@ -200,6 +384,16 @@
             .vocabulary-item {
                 padding: 8px 12px;
                 font-size: 0.9rem;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            .return-btn,
+            .view-leaderboard-btn {
+                width: 100%;
+                margin: 5px 0;
             }
         }
 
@@ -216,11 +410,121 @@
                 padding: 10px 8px;
                 font-size: 0.9rem;
             }
+
+            .leaderboard-accuracy {
+                display: none;
+            }
+        }
+
+        /* 加载中动画 */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--main-pink);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .server-status {
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+
+        .status-online {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-offline {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .retry-btn {
+            background: transparent;
+            border: 1px solid var(--main-pink);
+            color: var(--main-pink);
+            padding: 5px 10px;
+            border-radius: var(--apple-radius-sm);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .retry-btn:hover {
+            background: rgba(255, 107, 158, 0.1);
+        }
+
+        /* 全局消息通知 */
+        .toast-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 350px;
+            background: white;
+            border-left: 4px solid var(--main-pink);
+            border-radius: var(--apple-radius-sm);
+            padding: 15px 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+        }
+
+        .toast-message.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .toast-message.success {
+            border-left-color: #28a745;
+        }
+
+        .toast-message.error {
+            border-left-color: #dc3545;
         }
     </style>
 </head>
 
 <body>
+    <!-- 全局消息通知 -->
+    <div class="toast-message" id="toastMessage"></div>
+
+    <!-- 欢迎输入昵称模态框 -->
+    <div class="welcome-modal show" id="welcomeModal">
+        <div class="welcome-content">
+            <h2>欢迎参加学术词汇挑战赛</h2>
+            <p>请输入您的昵称开始答题</p>
+            <input type="text" class="nickname-input" id="nicknameInput" placeholder="输入您的昵称" maxlength="20">
+            <button class="start-btn" onclick="startQuiz()">开始挑战</button>
+        </div>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
@@ -249,12 +553,15 @@
         <div class="container">
             <h1>Academic Vocabulary Test</h1>
             <p class="lead">Test your knowledge of academic English vocabulary</p>
+            <div id="userWelcome" class="mt-3" style="display: none;">
+                <span class="badge bg-light text-dark p-2">参赛选手: <span id="displayNickname"></span></span>
+            </div>
         </div>
     </header>
 
     <section>
         <div class="container">
-            <div class="card">
+            <div class="card" id="quizCard">
                 <div class="card-body">
                     <form id="quizForm">
                         <!-- 选择题部分 -->
@@ -559,6 +866,37 @@
                     <div id="result"></div>
                 </div>
             </div>
+
+            <!-- 排行榜卡片 -->
+            <div class="card mt-4" id="leaderboardCard" style="display: none;">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Academic Vocabulary 竞赛排行榜</h2>
+
+                    <!-- 服务器状态 -->
+                    <div class="server-status" id="serverStatus">
+                        后端服务状态：<span class="status-badge status-offline">正在连接...</span>
+                        <button class="retry-btn" id="retryButton" style="display: none;">重试连接</button>
+                    </div>
+
+                    <div class="leaderboard">
+                        <div class="leaderboard-header">
+                            <div class="row">
+                                <div class="col-2">排名</div>
+                                <div class="col-5">昵称</div>
+                                <div class="col-2">分数</div>
+                                <div class="col-3 d-none d-md-block">准确率</div>
+                            </div>
+                        </div>
+                        <div id="leaderboardItems">
+                            <!-- 排行榜内容将由JS动态生成 -->
+                            <div class="loader" id="leaderboardLoader"></div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button class="return-btn" onclick="showQuizResult()">返回我的成绩</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -573,16 +911,104 @@
         const encodedMcqAnswers = "QixCLEIsRCxCLEIsQixBLEQsQixDLEIsQSxELEEsQyxBLEEsRCxC";
         const encodedFillAnswers = "cHJpbWFyeSxhbmFseXNpcyxpbmNyZWFzZSxmb3VuZGF0aW9uLGluY2x1ZGUsYWNrbm93bGVkZ2VkLGNvbWJpbmF0aW9uLHJhdGUsc3RhdGlzdGljYWxseSxpbnN0cnVjdGlvbnM=";
 
-        function decodeAnswers(encoded) {
+        // 存储用户昵称
+        let userNickname = "";
+        // 存储用户分数
+        let userScore = 0;
+        let userAccuracy = 0;
+        // Firebase引用
+        let db;
+        let connected = false;
+
+        // Firebase配置
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOKe0n9obzJPDzCXbyEDpIINSJ3womdq0",
+            authDomain: "chloe-fc03a.firebaseapp.com",
+            databaseURL: "https://chloe-fc03a-default-rtdb.firebaseio.com",
+            projectId: "chloe-fc03a",
+            storageBucket: "chloe-fc03a.firebasestorage.app",
+            messagingSenderId: "748571719604",
+            appId: "1:748571719604:web:a24187ed08b20d9566e4e1"
+        };
+
+        // 初始化Firebase
+        function initFirebase() {
             try {
-                return atob(encoded).split(',');
-            } catch (e) {
-                console.error('验证失败');
-                return [];
+                // 初始化Firebase
+                firebase.initializeApp(firebaseConfig);
+                // 获取数据库引用
+                db = firebase.database();
+
+                // 检查连接状态
+                const connectedRef = db.ref(".info/connected");
+                connectedRef.on("value", (snap) => {
+                    connected = snap.val() === true;
+                    updateServerStatus();
+                });
+
+                showToast("后端服务已连接", "success");
+                console.log("Firebase初始化成功");
+            } catch (error) {
+                console.error("Firebase初始化失败:", error);
+                showToast("无法连接到后端服务", "error");
+                connected = false;
+                updateServerStatus();
             }
         }
 
-        function calculateScore() {
+        // 更新服务器状态显示
+        function updateServerStatus() {
+            const statusElement = document.querySelector("#serverStatus .status-badge");
+            const retryButton = document.getElementById("retryButton");
+
+            if (connected) {
+                statusElement.textContent = "在线";
+                statusElement.className = "status-badge status-online";
+                retryButton.style.display = "none";
+            } else {
+                statusElement.textContent = "离线";
+                statusElement.className = "status-badge status-offline";
+                retryButton.style.display = "inline-block";
+            }
+        }
+
+        // 显示通知消息
+        function showToast(message, type = "info") {
+            const toast = document.getElementById("toastMessage");
+            toast.textContent = message;
+            toast.className = "toast-message show " + type;
+
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                toast.className = "toast-message";
+            }, 3000);
+        }
+
+        // 模拟的排行榜数据（仅在无法连接到Firebase时使用）
+        const mockLeaderboard = [
+            { nickname: "学霸王", score: 28, accuracy: 93.3 },
+            { nickname: "词汇达人", score: 27, accuracy: 90.0 },
+            { nickname: "英语小天才", score: 25, accuracy: 83.3 },
+            { nickname: "考试之王", score: 24, accuracy: 80.0 },
+            { nickname: "知识海绵", score: 23, accuracy: 76.7 },
+            { nickname: "学习机器", score: 21, accuracy: 70.0 },
+            { nickname: "努力的小白", score: 19, accuracy: 63.3 },
+            { nickname: "小小探索者", score: 18, accuracy: 60.0 },
+            { nickname: "潜力无限", score: 17, accuracy: 56.7 },
+            { nickname: "进步之星", score: 15, accuracy: 50.0 }
+        ];
+
+        // 获取排行榜数据
+        function fetchLeaderboard() {
+            document.getElementById("leaderboardLoader").style.display = "block";
+
+            if (!connected || !db) {
+                // 如果未连接到Firebase，使用本地数据
+                document.getElementById("leaderboardLoader").style.display = "none";
+                renderLeaderboard(getLocalLeaderboard());
+                return;
+            }
+
             let score = 0;
             let mcqScore = 0;
             let fillScore = 0;
@@ -609,6 +1035,16 @@
                     }
                 }
 
+                // 计算准确率
+                userScore = score;
+                userAccuracy = (score / 30) * 100;
+
+                // 添加到排行榜
+                addToLeaderboard(userNickname, userScore, userAccuracy);
+
+                // 获取用户排名
+                const userRank = getUserRank(userNickname);
+
                 // 显示结果
                 const resultDiv = document.getElementById('result');
                 resultDiv.innerHTML = `
@@ -619,7 +1055,12 @@
                     <div class="progress-bar"><div class="progress-fill" style="width:${fillScore * 10}%"></div></div>
                     <p>总分：${score}/30</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${score / 30 * 100}%"></div></div>
-                    <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
+                    <p class="mt-3">准确率：${(score / 30 * 100).toFixed(1)}%</p>
+                    <p class="text-success fw-bold">您的排名：第 ${userRank} 名</p>
+                    <div class="btn-container">
+                        <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
+                        <button onclick="showLeaderboard()" class="view-leaderboard-btn">查看排行榜</button>
+                    </div>
                 `;
 
                 resultDiv.classList.add('show');
@@ -680,6 +1121,20 @@
                     }
                 }
             });
+
+            // 处理回车键在昵称输入时提交
+            document.getElementById('nicknameInput').addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    startQuiz();
+                }
+            });
+
+            // 如果本地存储中有昵称，则自动填充
+            const savedNickname = localStorage.getItem('quizUserNickname');
+            if (savedNickname) {
+                document.getElementById('nicknameInput').value = savedNickname;
+            }
         });
     </script>
 
