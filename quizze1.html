@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Academic Vocabulary Test | Chloe's Classroom Space Station</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* 测验特定样式 */
@@ -217,6 +218,91 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* 昵称模态框样式 */
+        .nickname-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nickname-modal-content {
+            background: white;
+            border-radius: var(--apple-radius);
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .nickname-modal h3 {
+            margin-top: 0;
+            color: var(--main-pink);
+            margin-bottom: 20px;
+        }
+
+        .nickname-modal input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            font-size: 1rem;
+        }
+
+        .nickname-modal button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .nickname-modal button:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+        }
+
+        /* 计时器样式 */
+        .timer-display {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .timer-display i {
+            margin-right: 6px;
+            color: var(--main-pink);
+        }
+
+        @media (max-width: 768px) {
+            .timer-display {
+                top: 70px;
+                right: 10px;
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
     </style>
 </head>
 
@@ -243,6 +329,21 @@
             </div>
         </div>
     </nav>
+
+    <!-- 昵称输入模态框 -->
+    <div id="nicknameModal" class="nickname-modal">
+        <div class="nickname-modal-content">
+            <h3>Welcome to the Academic Vocabulary Test</h3>
+            <p>Please enter your nickname to start the test:</p>
+            <input type="text" id="nickname" placeholder="Your Nickname" required>
+            <button onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- 计时器显示 -->
+    <div id="timerDisplay" class="timer-display" style="display:none;">
+        <i class="fas fa-clock"></i> <span id="timer">00:00</span>
+    </div>
 
     <!-- Main Content -->
     <header class="text-white text-center">
@@ -573,16 +674,72 @@
         const encodedMcqAnswers = "QixCLEIsRCxCLEIsQixBLEQsQixDLEIsQSxELEEsQyxBLEEsRCxC";
         const encodedFillAnswers = "cHJpbWFyeSxhbmFseXNpcyxpbmNyZWFzZSxmb3VuZGF0aW9uLGluY2x1ZGUsYWNrbm93bGVkZ2VkLGNvbWJpbmF0aW9uLHJhdGUsc3RhdGlzdGljYWxseSxpbnN0cnVjdGlvbnM=";
 
+        // 计时器变量
+        let startTime;
+        let timerInterval;
+        let userNickname = "";
+        let elapsedTimeInSeconds = 0;
+
+        // 开始测试，隐藏模态框并开始计时
+        function startTest() {
+            const nicknameInput = document.getElementById('nickname');
+            if (!nicknameInput.value.trim()) {
+                alert('Please enter a nickname to proceed');
+                return;
+            }
+
+            userNickname = nicknameInput.value.trim();
+            document.getElementById('nicknameModal').style.display = 'none';
+            document.getElementById('timerDisplay').style.display = 'flex';
+
+            // 开始计时
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // 更新计时器显示
+        function updateTimer() {
+            const currentTime = new Date();
+            elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+
+            const minutes = Math.floor(elapsedTimeInSeconds / 60);
+            const seconds = elapsedTimeInSeconds % 60;
+
+            document.getElementById('timer').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // 格式化用时文本
+        function formatElapsedTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+
+            if (minutes === 0) {
+                return `${remainingSeconds} seconds`;
+            } else if (minutes === 1 && remainingSeconds === 0) {
+                return `1 minute`;
+            } else if (minutes === 1) {
+                return `1 minute and ${remainingSeconds} seconds`;
+            } else if (remainingSeconds === 0) {
+                return `${minutes} minutes`;
+            } else {
+                return `${minutes} minutes and ${remainingSeconds} seconds`;
+            }
+        }
+
         function decodeAnswers(encoded) {
             try {
                 return atob(encoded).split(',');
             } catch (e) {
-                console.error('验证失败');
+                console.error('Validation Failed');
                 return [];
             }
         }
 
         function calculateScore() {
+            // 停止计时器
+            clearInterval(timerInterval);
+
             let score = 0;
             let mcqScore = 0;
             let fillScore = 0;
@@ -611,21 +768,24 @@
 
                 // 显示结果
                 const resultDiv = document.getElementById('result');
+                const formattedTime = formatElapsedTime(elapsedTimeInSeconds);
+
                 resultDiv.innerHTML = `
-                    <h3>测试结果</h3>
-                    <p>选择题得分：${mcqScore}/20</p>
+                    <h3>Test Results for ${userNickname}</h3>
+                    <p>Multiple Choice Score: ${mcqScore}/20</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${mcqScore * 5}%"></div></div>
-                    <p>填空题得分：${fillScore}/10</p>
+                    <p>Sentence Completion Score: ${fillScore}/10</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${fillScore * 10}%"></div></div>
-                    <p>总分：${score}/30</p>
+                    <p>Total Score: ${score}/30</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${score / 30 * 100}%"></div></div>
-                    <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
+                    <p class="mt-3">Time taken: ${formattedTime}</p>
+                    <button onclick="window.location.href='quizzes.html'" class="return-btn">Return to Quiz List</button>
                 `;
 
                 resultDiv.classList.add('show');
                 resultDiv.scrollIntoView({ behavior: 'smooth' });
             } catch (e) {
-                alert('提交失败，请重试');
+                alert('Submission failed, please try again');
             }
         }
 
