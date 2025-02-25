@@ -142,9 +142,7 @@
         }
 
         .word-table tr:first-child td {
-            background: var(--accent-color);
-            color: white;
-            font-weight: 500;
+            /* 移除了font-weight: 500; */
         }
 
         .word-table tr:not(:first-child):hover td {
@@ -272,6 +270,12 @@
             .submit-btn {
                 padding: 12px;
                 font-size: 1rem;
+            }
+
+            /* 添加移动端表格居中样式 */
+            .word-table {
+                margin: 20px auto;
+                max-width: 95%;
             }
         }
 
