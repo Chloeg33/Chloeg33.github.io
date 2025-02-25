@@ -1009,65 +1009,26 @@
                 return;
             }
 
-            let score = 0;
-            let mcqScore = 0;
-            let fillScore = 0;
+            // 从Firebase获取数据
+            const leaderboardRef = db.ref('leaderboard');
+            leaderboardRef.once('value')
+                .then((snapshot) => {
+                    document.getElementById("leaderboardLoader").style.display = "none";
+                    let leaderboardData = snapshot.val();
 
-            try {
-                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
-                const fillAnswers = decodeAnswers(encodedFillAnswers);
-
-                // 计算选择题得分
-                for (let i = 0; i < 20; i++) {
-                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
-                    if (selected && selected.value === mcqAnswers[i]) {
-                        score++;
-                        mcqScore++;
+                    if (!leaderboardData || !Array.isArray(leaderboardData) || leaderboardData.length === 0) {
+                        // 如果Firebase中没有数据，使用本地数据
+                        leaderboardData = getLocalLeaderboard();
                     }
-                }
 
-                // 计算填空题得分
-                for (let i = 0; i < 10; i++) {
-                    const answer = document.querySelector(`input[name="q${21 + i}"]`).value.toLowerCase().trim();
-                    if (answer === fillAnswers[i]) {
-                        score++;
-                        fillScore++;
-                    }
-                }
-
-                // 计算准确率
-                userScore = score;
-                userAccuracy = (score / 30) * 100;
-
-                // 添加到排行榜
-                addToLeaderboard(userNickname, userScore, userAccuracy);
-
-                // 获取用户排名
-                const userRank = getUserRank(userNickname);
-
-                // 显示结果
-                const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = `
-                    <h3>测试结果</h3>
-                    <p>选择题得分：${mcqScore}/20</p>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${mcqScore * 5}%"></div></div>
-                    <p>填空题得分：${fillScore}/10</p>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${fillScore * 10}%"></div></div>
-                    <p>总分：${score}/30</p>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${score / 30 * 100}%"></div></div>
-                    <p class="mt-3">准确率：${(score / 30 * 100).toFixed(1)}%</p>
-                    <p class="text-success fw-bold">您的排名：第 ${userRank} 名</p>
-                    <div class="btn-container">
-                        <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
-                        <button onclick="showLeaderboard()" class="view-leaderboard-btn">查看排行榜</button>
-                    </div>
-                `;
-
-                resultDiv.classList.add('show');
-                resultDiv.scrollIntoView({ behavior: 'smooth' });
-            } catch (e) {
-                alert('提交失败，请重试');
-            }
+                    renderLeaderboard(leaderboardData);
+                })
+                .catch((error) => {
+                    console.error("获取排行榜失败:", error);
+                    document.getElementById("leaderboardLoader").style.display = "none";
+                    // 使用本地数据作为备份
+                    renderLeaderboard(getLocalLeaderboard());
+                });
         }
 
         // 添加选词填空功能
@@ -1135,6 +1096,239 @@
             if (savedNickname) {
                 document.getElementById('nicknameInput').value = savedNickname;
             }
+
+            // 初始化Firebase
+            initFirebase();
+        });
+
+        // 开始测验
+        function startQuiz() {
+            const nicknameInput = document.getElementById('nicknameInput');
+            const nickname = nicknameInput.value.trim();
+
+            if (!nickname) {
+                showToast("请输入昵称后开始", "error");
+                return;
+            }
+
+            // 保存昵称
+            userNickname = nickname;
+            localStorage.setItem('quizUserNickname', nickname);
+
+            // 显示用户欢迎信息
+            document.getElementById('displayNickname').textContent = nickname;
+            document.getElementById('userWelcome').style.display = 'block';
+
+            // 隐藏欢迎模态框
+            document.getElementById('welcomeModal').classList.remove('show');
+
+            showToast(`欢迎参赛，${nickname}!`, "success");
+        }
+
+        // 计算得分并提交
+        function calculateScore() {
+            try {
+                userScore = 0;
+                let mcqScore = 0;
+                let fillScore = 0;
+
+                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
+                const fillAnswers = decodeAnswers(encodedFillAnswers);
+
+                // 计算选择题得分
+                for (let i = 0; i < 20; i++) {
+                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
+                    if (selected && selected.value === mcqAnswers[i]) {
+                        userScore++;
+                        mcqScore++;
+                    }
+                }
+
+                // 计算填空题得分
+                for (let i = 0; i < 10; i++) {
+                    const answer = document.querySelector(`input[name="q${21 + i}"]`).value.toLowerCase().trim();
+                    if (answer === fillAnswers[i]) {
+                        userScore++;
+                        fillScore++;
+                    }
+                }
+
+                // 计算准确率
+                userAccuracy = (userScore / 30) * 100;
+
+                // 添加到排行榜
+                addToLeaderboard(userNickname, userScore, userAccuracy);
+
+                // 显示结果
+                showQuizResult();
+
+            } catch (e) {
+                console.error("计算分数出错:", e);
+                showToast("计算分数时出错，请重试", "error");
+            }
+        }
+
+        // 显示测验结果
+        function showQuizResult() {
+            document.getElementById('quizCard').style.display = 'block';
+            document.getElementById('leaderboardCard').style.display = 'none';
+
+            // 获取用户排名
+            const userRank = getUserRank(userNickname);
+
+            // 显示结果
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h3>测试结果</h3>
+                <p>您的得分：${userScore}/30</p>
+                <div class="progress-bar"><div class="progress-fill" style="width:${userScore / 30 * 100}%"></div></div>
+                <p class="mt-3">准确率：${userAccuracy.toFixed(1)}%</p>
+                <p class="text-success fw-bold">您的排名：第 ${userRank} 名</p>
+                <div class="btn-container">
+                    <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
+                    <button onclick="showLeaderboard()" class="view-leaderboard-btn">查看排行榜</button>
+                </div>
+            `;
+
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 显示排行榜
+        function showLeaderboard() {
+            document.getElementById('quizCard').style.display = 'none';
+            document.getElementById('leaderboardCard').style.display = 'block';
+            fetchLeaderboard();
+        }
+
+        // 解码答案
+        function decodeAnswers(encoded) {
+            try {
+                return atob(encoded).split(',');
+            } catch (e) {
+                console.error("解码答案失败:", e);
+                return [];
+            }
+        }
+
+        // 向排行榜添加用户成绩
+        function addToLeaderboard(nickname, score, accuracy) {
+            if (!nickname || score === undefined) return;
+
+            // 获取当前排行榜
+            let leaderboard = getLocalLeaderboard();
+
+            // 查找是否已有该用户记录
+            const existingUserIndex = leaderboard.findIndex(entry => entry.nickname === nickname);
+
+            if (existingUserIndex !== -1) {
+                // 如果新分数更高，则更新
+                if (score > leaderboard[existingUserIndex].score) {
+                    leaderboard[existingUserIndex].score = score;
+                    leaderboard[existingUserIndex].accuracy = accuracy;
+                }
+            } else {
+                // 添加新用户
+                leaderboard.push({ nickname, score, accuracy });
+            }
+
+            // 排序
+            leaderboard.sort((a, b) => b.score - a.score);
+
+            // 只保留前20名
+            leaderboard = leaderboard.slice(0, 20);
+
+            // 保存到本地存储
+            localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
+
+            // 如果连接到Firebase，也保存到Firebase
+            if (connected && db) {
+                try {
+                    const leaderboardRef = db.ref('leaderboard');
+                    leaderboardRef.set(leaderboard)
+                        .then(() => {
+                            console.log("排行榜已更新到Firebase");
+                            showToast("成绩已提交到全球排行榜", "success");
+                        })
+                        .catch(error => {
+                            console.error("更新Firebase排行榜失败:", error);
+                            showToast("提交到全球排行榜失败，但已保存在本地", "error");
+                        });
+                } catch (error) {
+                    console.error("Firebase操作失败:", error);
+                }
+            }
+        }
+
+        // 获取用户排名
+        function getUserRank(nickname) {
+            if (!nickname) return "N/A";
+
+            const leaderboard = getLocalLeaderboard();
+            const userIndex = leaderboard.findIndex(entry => entry.nickname === nickname);
+
+            if (userIndex === -1) return "未上榜";
+            return userIndex + 1;
+        }
+
+        // 获取本地排行榜数据
+        function getLocalLeaderboard() {
+            let leaderboard = [];
+
+            // 尝试从本地存储获取
+            const storedLeaderboard = localStorage.getItem('quizLeaderboard');
+
+            if (storedLeaderboard) {
+                try {
+                    leaderboard = JSON.parse(storedLeaderboard);
+                } catch (e) {
+                    console.error("解析本地排行榜数据失败:", e);
+                    leaderboard = [];
+                }
+            }
+
+            // 如果没有数据，使用模拟数据
+            if (leaderboard.length === 0) {
+                leaderboard = mockLeaderboard;
+            }
+
+            return leaderboard;
+        }
+
+        // 渲染排行榜
+        function renderLeaderboard(leaderboard) {
+            const leaderboardContainer = document.getElementById('leaderboardItems');
+            leaderboardContainer.innerHTML = '';
+
+            leaderboard.forEach((entry, index) => {
+                const isCurrentUser = entry.nickname === userNickname;
+                const itemClass = isCurrentUser ? 'leaderboard-item user-highlight' : 'leaderboard-item';
+
+                // 前三名特殊标记
+                let rankDisplay = (index + 1).toString();
+                if (index === 0) rankDisplay = '🥇';
+                else if (index === 1) rankDisplay = '🥈';
+                else if (index === 2) rankDisplay = '🥉';
+
+                const item = document.createElement('div');
+                item.className = itemClass;
+                item.innerHTML = `
+                    <div class="row">
+                        <div class="col-2 leaderboard-rank">${rankDisplay}</div>
+                        <div class="col-5 leaderboard-name">${entry.nickname}</div>
+                        <div class="col-2 leaderboard-score">${entry.score}</div>
+                        <div class="col-3 d-none d-md-block leaderboard-accuracy">${entry.accuracy.toFixed(1)}%</div>
+                    </div>
+                `;
+
+                leaderboardContainer.appendChild(item);
+            });
+        }
+
+        // 重试连接Firebase
+        document.getElementById('retryButton').addEventListener('click', function () {
+            showToast("正在重新连接服务器...", "info");
+            initFirebase();
         });
     </script>
 
