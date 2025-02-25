@@ -123,30 +123,39 @@
         }
 
         .word-table {
-            width: 100%;
-            margin: 20px 0;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none;
+            /* 隐藏原表格 */
         }
 
-        .word-table td {
-            padding: 12px !important;
+        .vocabulary-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .vocabulary-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 15px;
             font-size: 0.95rem;
             text-align: center;
-            background: #fff;
-            border: 1px solid var(--border-color);
-            transition: background 0.2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
         }
 
-        .word-table tr:first-child td {
-            /* 移除了font-weight: 500; */
-        }
-
-        .word-table tr:not(:first-child):hover td {
+        .vocabulary-item:hover {
             background: #f0f7ff;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .vocabulary-item:active {
+            transform: translateY(0);
         }
 
         .submit-btn {
@@ -221,7 +230,36 @@
             }
         }
 
+        /* 导航栏移动端优化 */
         @media (max-width: 600px) {
+            .navbar-brand {
+                font-size: 1rem;
+                max-width: 60%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .navbar .container {
+                padding: 0 5px;
+            }
+
+            .navbar-nav {
+                gap: 0;
+            }
+
+            .nav-link {
+                padding: 5px 8px !important;
+                font-size: 0.85rem;
+            }
+
+            /* 词汇项在手机上的样式 */
+            .vocabulary-item {
+                padding: 12px 15px;
+                font-size: 1rem;
+                flex: 0 0 calc(45% - 10px);
+            }
+
             body {
                 padding: 10px;
                 padding-top: 80px;
@@ -573,29 +611,19 @@
                 <h2>Sentence Completion (10 points)</h2>
                 <p>选择以下单词填空：</p>
 
-                <!-- 改进表格设计 -->
-                <table class="word-table">
-                    <tr>
-                        <td>statistically</td>
-                        <td>combination</td>
-                    </tr>
-                    <tr>
-                        <td>include</td>
-                        <td>acknowledged</td>
-                    </tr>
-                    <tr>
-                        <td>primary</td>
-                        <td>increase</td>
-                    </tr>
-                    <tr>
-                        <td>foundation</td>
-                        <td>analysis</td>
-                    </tr>
-                    <tr>
-                        <td>rate</td>
-                        <td>instructions</td>
-                    </tr>
-                </table>
+                <!-- 现代化词汇标签设计 -->
+                <div class="vocabulary-container">
+                    <div class="vocabulary-item">statistically</div>
+                    <div class="vocabulary-item">combination</div>
+                    <div class="vocabulary-item">include</div>
+                    <div class="vocabulary-item">acknowledged</div>
+                    <div class="vocabulary-item">primary</div>
+                    <div class="vocabulary-item">increase</div>
+                    <div class="vocabulary-item">foundation</div>
+                    <div class="vocabulary-item">analysis</div>
+                    <div class="vocabulary-item">rate</div>
+                    <div class="vocabulary-item">instructions</div>
+                </div>
 
                 <!-- 填空题部分 -->
                 <div class="question">
