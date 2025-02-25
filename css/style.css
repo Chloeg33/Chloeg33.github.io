@@ -240,17 +240,6 @@ header .lead {
     background-color: rgba(147, 112, 219, 0.05) !important;
 }
 
-.bg-pink {
-    background-color: #ffb6c1;
-    /* 这是浅粉色 */
-    padding: 3rem 0;
-}
-
-.bg-pink h2 {
-    color: #333;
-    /* 确保标题在粉色背景上清晰可见 */
-}
-
 /* 按钮样式 - 触摸友好 */
 .btn {
     padding: 12px 20px;
@@ -682,7 +671,104 @@ footer p {
     }
 }
 
-.text-pink {
-    color: #ff69b4;
-    /* 热粉色，您可以根据需要调整 */
+/* Latest Updates 时间线样式 */
+.update-header .divider {
+    height: 3px;
+    width: 80px;
+    background: linear-gradient(45deg, var(--main-pink), var(--main-purple));
+    border-radius: 3px;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+.timeline:before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--main-pink), var(--main-purple));
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    border-radius: 5px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 40px;
+}
+
+.date-badge {
+    position: absolute;
+    left: -10px;
+    top: 15px;
+    background: linear-gradient(45deg, var(--main-pink), var(--main-purple));
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.update-card {
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    border-left: 4px solid var(--main-pink);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.update-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.update-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: inline-block;
+    background: linear-gradient(45deg, rgba(255, 107, 158, 0.1), rgba(147, 112, 219, 0.1));
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+    .timeline:before {
+        left: 50%;
+        margin-left: -1.5px;
+    }
+
+    .timeline-item {
+        padding-left: 0;
+        margin-bottom: 50px;
+    }
+
+    .timeline-item:nth-child(odd) {
+        padding-right: 50%;
+        padding-left: 30px;
+    }
+
+    .timeline-item:nth-child(even) {
+        padding-left: 50%;
+        padding-right: 30px;
+    }
+
+    .timeline-item:nth-child(odd) .date-badge {
+        right: auto;
+        left: 50%;
+        margin-left: -60px;
+    }
+
+    .timeline-item:nth-child(even) .date-badge {
+        left: 50%;
+        margin-left: 20px;
+    }
 }
