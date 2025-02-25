@@ -7,48 +7,97 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Academic Vocabulary Test | Chloe's Classroom Space Station</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- 添加与index.html相同的外部CSS引用 -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Firebase SDK 引入 -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<<<<<<< HEAD
+=======
+
+    <!-- Custom CSS -->
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
     <style>
-        /* 测验特定样式 */
-        .question {
-            margin: 20px 0;
-            background-color: var(--apple-card);
-            padding: 20px;
-            border-radius: var(--apple-radius);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Theme Variables */
+        :root {
+            --primary-color: #ff6b9e;
+            --secondary-color: #9370db;
+            --text-color: #333333;
+            --bg-color: #f5f7fa;
+            --card-bg: #f8f9fa;
+            --border-color: #e1e1e1;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            --box-shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
 
-        .question:hover {
+        /* Base Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-top: 60px;
+            line-height: 1.6;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        }
+
+        .page-header {
+            padding: 60px 0 40px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        /* Quiz Elements */
+        .question-container {
+            margin: 20px 0;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow-sm);
+            transition: var(--transition);
+        }
+
+        .question-container:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
         }
 
-        .question p {
+        .question-text {
             margin: 0 0 15px 0;
             font-size: 1.05rem;
             font-weight: 500;
-            color: var(--apple-text);
+            color: var(--text-color);
         }
 
-        label {
+        .option-label {
             display: block;
             margin: 10px 0;
             padding: 12px;
-            background: #fff;
-            border: 1px solid var(--apple-border);
-            border-radius: var(--apple-radius-sm);
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
 
-        label:hover {
+        .option-label:hover {
             background: rgba(147, 112, 219, 0.05);
-            border-color: var(--main-pink);
+            border-color: var(--primary-color);
         }
 
         input[type="radio"] {
@@ -60,19 +109,20 @@
             width: 100%;
             padding: 12px;
             margin: 8px 0;
-            border: 1px solid var(--apple-border);
-            border-radius: var(--apple-radius-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
             font-size: 1rem;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         input[type="text"]:focus {
-            border-color: var(--main-pink);
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(255, 107, 158, 0.2);
             outline: none;
         }
 
-        .vocabulary-container {
+        /* Word Bank */
+        .word-bank {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -82,10 +132,10 @@
             z-index: 5;
         }
 
-        .vocabulary-item {
+        .word-item {
             background: white;
-            border: 1px solid var(--apple-border);
-            border-radius: var(--apple-radius-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
             padding: 10px 15px;
             font-size: 0.95rem;
             text-align: center;
@@ -95,103 +145,85 @@
             display: inline-block;
         }
 
-        .vocabulary-item:hover {
+        .word-item:hover {
             background: rgba(147, 112, 219, 0.05);
-            border-color: var(--main-pink);
+            border-color: var(--primary-color);
             transform: translateY(-2px);
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
         }
 
-        .vocabulary-item:active {
+        .word-item:active {
             transform: translateY(0);
         }
 
-        .submit-btn {
+        /* Buttons */
+        .primary-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: var(--apple-radius);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 1.1rem;
             margin-top: 30px;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: var(--transition);
             box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
             font-weight: 500;
         }
 
-        .submit-btn:hover {
+        .primary-btn:hover {
             background: linear-gradient(to right, #ff5a93, #8a63d2);
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
         }
 
-        .submit-btn:active {
+        .primary-btn:active {
             transform: translateY(0);
         }
 
-        #result {
-            margin-top: 30px;
-            padding: 20px;
-            font-size: 1.1rem;
-            text-align: center;
-            border-radius: var(--apple-radius);
-            background: rgba(147, 112, 219, 0.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.5s;
-            display: none;
-        }
-
-        #result.show {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        #result h3 {
-            color: var(--main-pink);
-            margin-top: 0;
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            height: 10px;
-            border-radius: 5px;
-            background: var(--apple-border);
-            margin-top: 5px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            border-radius: 5px;
-            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
-            transition: width 1s;
-        }
-
-        .return-btn {
+        .secondary-btn {
             padding: 12px 25px;
-            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             color: white;
             border: none;
-            border-radius: var(--apple-radius);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 1rem;
             margin-top: 20px;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: var(--transition);
             box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
             display: inline-block;
             font-weight: 500;
         }
 
-        .return-btn:hover {
+        .secondary-btn:hover {
             background: linear-gradient(to right, #ff5a93, #8a63d2);
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
         }
 
-        /* 欢迎模态框样式 */
-        .welcome-modal {
+<<<<<<< HEAD
+        /* 移动端优化 */
+=======
+        /* Timer */
+        .quiz-timer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Results Modal */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -207,15 +239,15 @@
             transition: all 0.3s;
         }
 
-        .welcome-modal.show {
+        .modal-overlay.visible {
             opacity: 1;
             visibility: visible;
         }
 
-        .welcome-content {
+        .modal-content {
             background: white;
             padding: 30px;
-            border-radius: var(--apple-radius);
+            border-radius: var(--border-radius);
             width: 90%;
             max-width: 500px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -224,307 +256,93 @@
             transition: transform 0.3s;
         }
 
-        .welcome-modal.show .welcome-content {
+        .modal-overlay.visible .modal-content {
             transform: translateY(0);
         }
 
-        .welcome-content h2 {
-            color: var(--main-pink);
+        .modal-title {
+            color: var(--primary-color);
             margin-bottom: 20px;
             font-weight: 600;
         }
 
-        .nickname-input {
-            width: 100%;
-            padding: 15px;
-            margin: 20px 0;
-            border: 1px solid var(--apple-border);
-            border-radius: var(--apple-radius-sm);
-            font-size: 1.1rem;
-            text-align: center;
+        .result-score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 15px 0;
         }
 
-        .nickname-input:focus {
-            border-color: var(--main-pink);
-            box-shadow: 0 0 0 2px rgba(255, 107, 158, 0.2);
-            outline: none;
-        }
-
-        .start-btn {
-            padding: 12px 40px;
-            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
-            color: white;
-            border: none;
-            border-radius: var(--apple-radius);
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
-            font-weight: 500;
-        }
-
-        .start-btn:hover {
-            background: linear-gradient(to right, #ff5a93, #8a63d2);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
-        }
-
-        /* 排行榜样式 */
-        .leaderboard {
-            margin-top: 30px;
-            background: white;
-            border-radius: var(--apple-radius);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-        }
-
-        .leaderboard-header {
-            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
-            color: white;
-            padding: 15px 20px;
-            font-weight: 600;
+        .result-time {
             font-size: 1.2rem;
-            text-align: center;
+            margin: 15px 0;
+            color: #666;
         }
 
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--apple-border);
-            transition: background 0.2s;
-        }
-
-        .leaderboard-item:last-child {
-            border-bottom: none;
-        }
-
-        .leaderboard-item:hover {
-            background: rgba(147, 112, 219, 0.05);
-        }
-
-        .leaderboard-rank {
-            font-weight: 600;
+        .result-accuracy {
             font-size: 1.2rem;
-            width: 40px;
-            text-align: center;
+            margin: 10px 0 20px;
         }
 
-        .leaderboard-name {
-            flex: 1;
-            padding: 0 15px;
-            font-weight: 500;
-        }
-
-        .leaderboard-score {
-            font-weight: 600;
-            color: var(--main-pink);
-            width: 80px;
-            text-align: right;
-        }
-
-        .leaderboard-accuracy {
-            width: 100px;
-            text-align: right;
-            padding-left: 10px;
-        }
-
-        .user-highlight {
-            background: rgba(255, 107, 158, 0.1);
-            border-left: 3px solid var(--main-pink);
-        }
-
-        /* 排行榜查看按钮 */
-        .view-leaderboard-btn {
-            background: transparent;
-            color: var(--main-pink);
-            border: 1px solid var(--main-pink);
-            padding: 10px 20px;
-            border-radius: var(--apple-radius-sm);
-            margin-left: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .view-leaderboard-btn:hover {
-            background: rgba(255, 107, 158, 0.1);
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* 动画效果 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 移动端优化 */
+        /* Responsive Styles */
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
         @media (max-width: 768px) {
-            .question {
+            .question-container {
                 padding: 15px;
             }
 
-            .vocabulary-container {
+            .word-bank {
                 gap: 8px;
             }
 
-            .vocabulary-item {
+            .word-item {
                 padding: 8px 12px;
                 font-size: 0.9rem;
             }
+<<<<<<< HEAD
+=======
 
-            .btn-container {
-                flex-direction: column;
+            .quiz-timer {
+                top: 70px;
+                right: 10px;
+                font-size: 1rem;
+                padding: 8px 12px;
             }
-
-            .return-btn,
-            .view-leaderboard-btn {
-                width: 100%;
-                margin: 5px 0;
-            }
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
         }
 
         @media (max-width: 576px) {
-            .vocabulary-container {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
+            .word-bank {
                 gap: 8px;
             }
 
-            .vocabulary-item {
+            .word-item {
                 flex: 0 0 calc(45% - 10px);
                 padding: 10px 8px;
                 font-size: 0.9rem;
             }
-
-            .leaderboard-accuracy {
-                display: none;
-            }
-        }
-
-        /* 加载中动画 */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--main-pink);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .server-status {
-            text-align: center;
-            color: #666;
-            margin: 10px 0;
-            font-size: 0.9rem;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            margin-left: 5px;
-        }
-
-        .status-online {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .status-offline {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-        .retry-btn {
-            background: transparent;
-            border: 1px solid var(--main-pink);
-            color: var(--main-pink);
-            padding: 5px 10px;
-            border-radius: var(--apple-radius-sm);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .retry-btn:hover {
-            background: rgba(255, 107, 158, 0.1);
-        }
-
-        /* 全局消息通知 */
-        .toast-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            max-width: 350px;
-            background: white;
-            border-left: 4px solid var(--main-pink);
-            border-radius: var(--apple-radius-sm);
-            padding: 15px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            z-index: 9999;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-20px);
-            transition: all 0.3s;
-        }
-
-        .toast-message.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .toast-message.success {
-            border-left-color: #28a745;
-        }
-
-        .toast-message.error {
-            border-left-color: #dc3545;
         }
     </style>
 </head>
 
 <body>
-    <!-- 全局消息通知 -->
-    <div class="toast-message" id="toastMessage"></div>
+<<<<<<< HEAD
+=======
+    <!-- Timer -->
+    <div class="quiz-timer" id="timer">00:00</div>
 
-    <!-- 欢迎输入昵称模态框 -->
-    <div class="welcome-modal show" id="welcomeModal">
-        <div class="welcome-content">
-            <h2>欢迎参加学术词汇挑战赛</h2>
-            <p>请输入您的昵称开始答题</p>
-            <input type="text" class="nickname-input" id="nicknameInput" placeholder="输入您的昵称" maxlength="20">
-            <button class="start-btn" onclick="startQuiz()">开始挑战</button>
+    <!-- Results Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="modal-content">
+            <h2 class="modal-title">Test Results</h2>
+            <div class="result-score" id="resultScore">0/30</div>
+            <div class="result-accuracy" id="resultAccuracy">Accuracy: 0%</div>
+            <div class="result-time" id="resultTime">Time: 00:00</div>
+            <button class="secondary-btn" onclick="window.location.href='quizzes.html'">Return to Quiz List</button>
         </div>
     </div>
 
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
@@ -548,357 +366,303 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Header -->
     <header class="text-white text-center">
         <div class="container">
             <h1>Academic Vocabulary Test</h1>
             <p class="lead">Test your knowledge of academic English vocabulary</p>
-            <div id="userWelcome" class="mt-3" style="display: none;">
-                <span class="badge bg-light text-dark p-2">参赛选手: <span id="displayNickname"></span></span>
-            </div>
         </div>
     </header>
 
-    <section>
+    <!-- Main Quiz Content -->
+    <main style="margin-top: 30px; position: relative; z-index: 1;">
         <div class="container">
-            <div class="card" id="quizCard">
+            <div class="card">
                 <div class="card-body">
                     <form id="quizForm">
-                        <!-- 选择题部分 -->
+                        <!-- Multiple Choice Questions -->
                         <h2 class="card-title">Multiple Choice Questions (20 points)</h2>
 
-                        <div class="question">
-                            <p>1. The research paper offers a comprehensive ________ of the factors contributing to
-                                urban
-                                sprawl.</p>
-                            <label><input type="radio" name="q1" value="A"> A) formula</label>
-                            <label><input type="radio" name="q1" value="B"> B) analysis</label>
-                            <label><input type="radio" name="q1" value="C"> C) procedure</label>
-                            <label><input type="radio" name="q1" value="D"> D) context</label>
+                        <div class="question-container">
+                            <p class="question-text">1. The research paper offers a comprehensive ________ of the
+                                factors contributing to urban sprawl.</p>
+                            <label class="option-label"><input type="radio" name="q1" value="A"> A) formula</label>
+                            <label class="option-label"><input type="radio" name="q1" value="B"> B) analysis</label>
+                            <label class="option-label"><input type="radio" name="q1" value="C"> C) procedure</label>
+                            <label class="option-label"><input type="radio" name="q1" value="D"> D) context</label>
                         </div>
 
-                        <div class="question">
-                            <p>2. Policymakers are considering a new ________ to mitigate the adverse effects of climate
-                                change
-                                on
-                                coastal communities.</p>
-                            <label><input type="radio" name="q2" value="A"> A) component</label>
-                            <label><input type="radio" name="q2" value="B"> B) approach</label>
-                            <label><input type="radio" name="q2" value="C"> C) opponent</label>
-                            <label><input type="radio" name="q2" value="D"> D) structure</label>
+                        <div class="question-container">
+                            <p class="question-text">2. Policymakers are considering a new ________ to mitigate the
+                                adverse effects of climate change on coastal communities.</p>
+                            <label class="option-label"><input type="radio" name="q2" value="A"> A) component</label>
+                            <label class="option-label"><input type="radio" name="q2" value="B"> B) approach</label>
+                            <label class="option-label"><input type="radio" name="q2" value="C"> C) opponent</label>
+                            <label class="option-label"><input type="radio" name="q2" value="D"> D) structure</label>
                         </div>
 
-                        <div class="question">
-                            <p>3. Further investigation is needed to determine the specific ________ of the brain
-                                exhibiting
-                                abnormal neural activity during the task.</p>
-                            <label><input type="radio" name="q3" value="A"> A) binary</label>
-                            <label><input type="radio" name="q3" value="B"> B) area</label>
-                            <label><input type="radio" name="q3" value="C"> C) adaptive</label>
-                            <label><input type="radio" name="q3" value="D"> D) process</label>
+                        <div class="question-container">
+                            <p class="question-text">3. Further investigation is needed to determine the specific
+                                ________ of the brain exhibiting abnormal neural activity during the task.</p>
+                            <label class="option-label"><input type="radio" name="q3" value="A"> A) binary</label>
+                            <label class="option-label"><input type="radio" name="q3" value="B"> B) area</label>
+                            <label class="option-label"><input type="radio" name="q3" value="C"> C) adaptive</label>
+                            <label class="option-label"><input type="radio" name="q3" value="D"> D) process</label>
                         </div>
 
-                        <div class="question">
-                            <p>4. A thorough ________ of the proposed intervention strategy will be conducted to
-                                evaluate its
-                                feasibility and effectiveness.</p>
-                            <label><input type="radio" name="q4" value="A"> A) distribution</label>
-                            <label><input type="radio" name="q4" value="B"> B) interpretation</label>
-                            <label><input type="radio" name="q4" value="C"> C) definition</label>
-                            <label><input type="radio" name="q4" value="D"> D) assessment</label>
+                        <div class="question-container">
+                            <p class="question-text">4. A thorough ________ of the proposed intervention strategy will
+                                be conducted to evaluate its feasibility and effectiveness.</p>
+                            <label class="option-label"><input type="radio" name="q4" value="A"> A) distribution</label>
+                            <label class="option-label"><input type="radio" name="q4" value="B"> B)
+                                interpretation</label>
+                            <label class="option-label"><input type="radio" name="q4" value="C"> C) definition</label>
+                            <label class="option-label"><input type="radio" name="q4" value="D"> D) assessment</label>
                         </div>
 
-                        <div class="question">
-                            <p>5. We ________ that the observed correlation between socioeconomic status and academic
-                                achievement
-                                warrants further investigation into causal mechanisms.</p>
-                            <label><input type="radio" name="q5" value="A"> A) certain</label>
-                            <label><input type="radio" name="q5" value="B"> B) assume</label>
-                            <label><input type="radio" name="q5" value="C"> C) create</label>
-                            <label><input type="radio" name="q5" value="D"> D) simplify</label>
-                        </div>
-
-                        <div class="question">
-                            <p>6. Professor Klein is a recognized ________ in the domain of quantum physics, renowned
-                                for his
-                                groundbreaking contributions to string theory.</p>
-                            <label><input type="radio" name="q6" value="A"> A) principle</label>
-                            <label><input type="radio" name="q6" value="B"> B) authority</label>
-                            <label><input type="radio" name="q6" value="C"> C) concept</label>
-                            <label><input type="radio" name="q6" value="D"> D) evidence</label>
-                        </div>
-
-                        <div class="question">
-                            <p>7. The complete dataset is ________ upon request for researchers affiliated with
-                                accredited
-                                academic
-                                institutions.</p>
-                            <label><input type="radio" name="q7" value="A"> A) consistent</label>
-                            <label><input type="radio" name="q7" value="B"> B) available</label>
-                            <label><input type="radio" name="q7" value="C"> C) economic</label>
-                            <label><input type="radio" name="q7" value="D"> D) specific</label>
-                        </div>
-
-                        <div class="question">
-                            <p>8. The revised curriculum is designed to ________ students from diverse linguistic and
-                                cultural
-                                backgrounds, fostering inclusivity and academic success.</p>
-                            <label><input type="radio" name="q8" value="A"> A) benefit</label>
-                            <label><input type="radio" name="q8" value="B"> B) derive</label>
-                            <label><input type="radio" name="q8" value="C"> C) establish</label>
-                            <label><input type="radio" name="q8" value="D"> D) estimate</label>
-                        </div>
-
-                        <div class="question">
-                            <p>9. The overarching ________ of social justice, encompassing equity and human rights, is
-                                central
-                                to
-                                contemporary political discourse.</p>
-                            <label><input type="radio" name="q9" value="A"> A) context</label>
-                            <label><input type="radio" name="q9" value="B"> B) variability</label>
-                            <label><input type="radio" name="q9" value="C"> C) option</label>
-                            <label><input type="radio" name="q9" value="D"> D) concept</label>
-                        </div>
-
-                        <div class="question">
-                            <p>10. The experimental findings regarding the efficacy of the treatment are ________ with
-                                meta-analytic
-                                reviews of similar interventions.</p>
-                            <label><input type="radio" name="q10" value="A"> A) similar</label>
-                            <label><input type="radio" name="q10" value="B"> B) consistent</label>
-                            <label><input type="radio" name="q10" value="C"> C) significant</label>
-                            <label><input type="radio" name="q10" value="D"> D) major</label>
-                        </div>
-
-                        <div class="question">
-                            <p>11. The ethical and ________ dimensions of artificial intelligence necessitate careful
-                                consideration
-                                of potential societal ramifications.</p>
-                            <label><input type="radio" name="q11" value="A"> A) conditional</label>
-                            <label><input type="radio" name="q11" value="B"> B) financial</label>
-                            <label><input type="radio" name="q11" value="C"> C) legal</label>
-                            <label><input type="radio" name="q11" value="D"> D) environmental</label>
-                        </div>
-
-                        <div class="question">
-                            <p>12. To fully appreciate the theoretical underpinnings of the argument, it is imperative
-                                to
-                                examine
-                                the intellectual ________ in which it emerged.</p>
-                            <label><input type="radio" name="q12" value="A"> A) rule</label>
-                            <label><input type="radio" name="q12" value="B"> B) context</label>
-                            <label><input type="radio" name="q12" value="C"> C) structure</label>
-                            <label><input type="radio" name="q12" value="D"> D) approach</label>
-                        </div>
-
-                        <div class="question">
-                            <p>13. The two companies signed a ________ outlining the terms of their collaboration on the
-                                project.
+                        <div class="question-container">
+                            <p class="question-text">5. We ________ that the observed correlation between socioeconomic
+                                status and academic achievement warrants further investigation into causal mechanisms.
                             </p>
-                            <label><input type="radio" name="q13" value="A"> A) contract</label>
-                            <label><input type="radio" name="q13" value="B"> B) formula</label>
-                            <label><input type="radio" name="q13" value="C"> C) law</label>
-                            <label><input type="radio" name="q13" value="D"> D) procedure</label>
+                            <label class="option-label"><input type="radio" name="q5" value="A"> A) certain</label>
+                            <label class="option-label"><input type="radio" name="q5" value="B"> B) assume</label>
+                            <label class="option-label"><input type="radio" name="q5" value="C"> C) create</label>
+                            <label class="option-label"><input type="radio" name="q5" value="D"> D) simplify</label>
                         </div>
 
-                        <div class="question">
-                            <p>14. Researchers are planning to ________ a series of experiments to test the efficacy of
-                                the new
-                                drug.</p>
-                            <label><input type="radio" name="q14" value="A"> A) create</label>
-                            <label><input type="radio" name="q14" value="B"> B) achieve</label>
-                            <label><input type="radio" name="q14" value="C"> C) obtain</label>
-                            <label><input type="radio" name="q14" value="D"> D) conduct</label>
+                        <div class="question-container">
+                            <p class="question-text">6. Professor Klein is a recognized ________ in the domain of
+                                quantum physics, renowned for his groundbreaking contributions to string theory.</p>
+                            <label class="option-label"><input type="radio" name="q6" value="A"> A) principle</label>
+                            <label class="option-label"><input type="radio" name="q6" value="B"> B) authority</label>
+                            <label class="option-label"><input type="radio" name="q6" value="C"> C) concept</label>
+                            <label class="option-label"><input type="radio" name="q6" value="D"> D) evidence</label>
                         </div>
 
-                        <div class="question">
-                            <p>15. The ________ collected from the experiment will be used to test the hypothesis.</p>
-                            <label><input type="radio" name="q15" value="A"> A) data</label>
-                            <label><input type="radio" name="q15" value="B"> B) evidence</label>
-                            <label><input type="radio" name="q15" value="C"> C) variables</label>
-                            <label><input type="radio" name="q15" value="D"> D) factors</label>
+                        <div class="question-container">
+                            <p class="question-text">7. The complete dataset is ________ upon request for researchers
+                                affiliated with accredited academic institutions.</p>
+                            <label class="option-label"><input type="radio" name="q7" value="A"> A) consistent</label>
+                            <label class="option-label"><input type="radio" name="q7" value="B"> B) available</label>
+                            <label class="option-label"><input type="radio" name="q7" value="C"> C) economic</label>
+                            <label class="option-label"><input type="radio" name="q7" value="D"> D) specific</label>
                         </div>
 
-                        <div class="question">
-                            <p>16. A precise ________ of the term 'globalization' is essential for academic discourse.
+                        <div class="question-container">
+                            <p class="question-text">8. The revised curriculum is designed to ________ students from
+                                diverse linguistic and cultural backgrounds, fostering inclusivity and academic success.
                             </p>
-                            <label><input type="radio" name="q16" value="A"> A) interpretation</label>
-                            <label><input type="radio" name="q16" value="B"> B) analysis</label>
-                            <label><input type="radio" name="q16" value="C"> C) definition</label>
-                            <label><input type="radio" name="q16" value="D"> D) assessment</label>
+                            <label class="option-label"><input type="radio" name="q8" value="A"> A) benefit</label>
+                            <label class="option-label"><input type="radio" name="q8" value="B"> B) derive</label>
+                            <label class="option-label"><input type="radio" name="q8" value="C"> C) establish</label>
+                            <label class="option-label"><input type="radio" name="q8" value="D"> D) estimate</label>
                         </div>
 
-                        <div class="question">
-                            <p>17. The therapeutic intervention is ________ from principles of cognitive behavioral
-                                therapy and
-                                mindfulness-based stress reduction.</p>
-                            <label><input type="radio" name="q17" value="A"> A) derived</label>
-                            <label><input type="radio" name="q17" value="B"> B) identified</label>
-                            <label><input type="radio" name="q17" value="C"> C) indicated</label>
-                            <label><input type="radio" name="q17" value="D"> D) established</label>
+                        <div class="question-container">
+                            <p class="question-text">9. The overarching ________ of social justice, encompassing equity
+                                and human rights, is central to contemporary political discourse.</p>
+                            <label class="option-label"><input type="radio" name="q9" value="A"> A) context</label>
+                            <label class="option-label"><input type="radio" name="q9" value="B"> B) variability</label>
+                            <label class="option-label"><input type="radio" name="q9" value="C"> C) option</label>
+                            <label class="option-label"><input type="radio" name="q9" value="D"> D) concept</label>
                         </div>
 
-                        <div class="question">
-                            <p>18. The study investigates the spatial ________ of economic opportunities across urban
-                                and rural
-                                landscapes.</p>
-                            <label><input type="radio" name="q18" value="A"> A) distribution</label>
-                            <label><input type="radio" name="q18" value="B"> B) export</label>
-                            <label><input type="radio" name="q18" value="C"> C) income</label>
-                            <label><input type="radio" name="q18" value="D"> D) investment</label>
+                        <div class="question-container">
+                            <p class="question-text">10. The experimental findings regarding the efficacy of the
+                                treatment are ________ with meta-analytic reviews of similar interventions.</p>
+                            <label class="option-label"><input type="radio" name="q10" value="A"> A) similar</label>
+                            <label class="option-label"><input type="radio" name="q10" value="B"> B) consistent</label>
+                            <label class="option-label"><input type="radio" name="q10" value="C"> C) significant</label>
+                            <label class="option-label"><input type="radio" name="q10" value="D"> D) major</label>
                         </div>
 
-                        <div class="question">
-                            <p>19. The prevailing ________ paradigm in macroeconomic theory posits rational expectations
-                                and
-                                market
-                                equilibrium.</p>
-                            <label><input type="radio" name="q19" value="A"> A) financial</label>
-                            <label><input type="radio" name="q19" value="B"> B) labour</label>
-                            <label><input type="radio" name="q19" value="C"> C) legal</label>
-                            <label><input type="radio" name="q19" value="D"> D) economic</label>
+                        <div class="question-container">
+                            <p class="question-text">11. The ethical and ________ dimensions of artificial intelligence
+                                necessitate careful consideration of potential societal ramifications.</p>
+                            <label class="option-label"><input type="radio" name="q11" value="A"> A) conditional</label>
+                            <label class="option-label"><input type="radio" name="q11" value="B"> B) financial</label>
+                            <label class="option-label"><input type="radio" name="q11" value="C"> C) legal</label>
+                            <label class="option-label"><input type="radio" name="q11" value="D"> D)
+                                environmental</label>
                         </div>
 
-                        <div class="question">
-                            <p>20. The conservation initiative aims to safeguard the fragile ________ and biodiversity
-                                of the
-                                Amazon
-                                rainforest.</p>
-                            <label><input type="radio" name="q20" value="A"> A) sector</label>
-                            <label><input type="radio" name="q20" value="B"> B) environment</label>
-                            <label><input type="radio" name="q20" value="C"> C) area</label>
-                            <label><input type="radio" name="q20" value="D"> D) method</label>
+                        <div class="question-container">
+                            <p class="question-text">12. To fully appreciate the theoretical underpinnings of the
+                                argument, it is imperative to examine the intellectual ________ in which it emerged.</p>
+                            <label class="option-label"><input type="radio" name="q12" value="A"> A) rule</label>
+                            <label class="option-label"><input type="radio" name="q12" value="B"> B) context</label>
+                            <label class="option-label"><input type="radio" name="q12" value="C"> C) structure</label>
+                            <label class="option-label"><input type="radio" name="q12" value="D"> D) approach</label>
                         </div>
 
-                        <!-- 填空题部分 -->
+                        <div class="question-container">
+                            <p class="question-text">13. The two companies signed a ________ outlining the terms of
+                                their collaboration on the project.</p>
+                            <label class="option-label"><input type="radio" name="q13" value="A"> A) contract</label>
+                            <label class="option-label"><input type="radio" name="q13" value="B"> B) formula</label>
+                            <label class="option-label"><input type="radio" name="q13" value="C"> C) law</label>
+                            <label class="option-label"><input type="radio" name="q13" value="D"> D) procedure</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">14. Researchers are planning to ________ a series of experiments to
+                                test the efficacy of the new drug.</p>
+                            <label class="option-label"><input type="radio" name="q14" value="A"> A) create</label>
+                            <label class="option-label"><input type="radio" name="q14" value="B"> B) achieve</label>
+                            <label class="option-label"><input type="radio" name="q14" value="C"> C) obtain</label>
+                            <label class="option-label"><input type="radio" name="q14" value="D"> D) conduct</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">15. The ________ collected from the experiment will be used to test
+                                the hypothesis.</p>
+                            <label class="option-label"><input type="radio" name="q15" value="A"> A) data</label>
+                            <label class="option-label"><input type="radio" name="q15" value="B"> B) evidence</label>
+                            <label class="option-label"><input type="radio" name="q15" value="C"> C) variables</label>
+                            <label class="option-label"><input type="radio" name="q15" value="D"> D) factors</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">16. A precise ________ of the term 'globalization' is essential for
+                                academic discourse.</p>
+                            <label class="option-label"><input type="radio" name="q16" value="A"> A)
+                                interpretation</label>
+                            <label class="option-label"><input type="radio" name="q16" value="B"> B) analysis</label>
+                            <label class="option-label"><input type="radio" name="q16" value="C"> C) definition</label>
+                            <label class="option-label"><input type="radio" name="q16" value="D"> D) assessment</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">17. The therapeutic intervention is ________ from principles of
+                                cognitive behavioral therapy and mindfulness-based stress reduction.</p>
+                            <label class="option-label"><input type="radio" name="q17" value="A"> A) derived</label>
+                            <label class="option-label"><input type="radio" name="q17" value="B"> B) identified</label>
+                            <label class="option-label"><input type="radio" name="q17" value="C"> C) indicated</label>
+                            <label class="option-label"><input type="radio" name="q17" value="D"> D) established</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">18. The study investigates the spatial ________ of economic
+                                opportunities across urban and rural landscapes.</p>
+                            <label class="option-label"><input type="radio" name="q18" value="A"> A)
+                                distribution</label>
+                            <label class="option-label"><input type="radio" name="q18" value="B"> B) export</label>
+                            <label class="option-label"><input type="radio" name="q18" value="C"> C) income</label>
+                            <label class="option-label"><input type="radio" name="q18" value="D"> D) investment</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">19. The prevailing ________ paradigm in macroeconomic theory posits
+                                rational expectations and market equilibrium.</p>
+                            <label class="option-label"><input type="radio" name="q19" value="A"> A) financial</label>
+                            <label class="option-label"><input type="radio" name="q19" value="B"> B) labour</label>
+                            <label class="option-label"><input type="radio" name="q19" value="C"> C) legal</label>
+                            <label class="option-label"><input type="radio" name="q19" value="D"> D) economic</label>
+                        </div>
+
+                        <div class="question-container">
+                            <p class="question-text">20. The conservation initiative aims to safeguard the fragile
+                                ________ and biodiversity of the Amazon rainforest.</p>
+                            <label class="option-label"><input type="radio" name="q20" value="A"> A) sector</label>
+                            <label class="option-label"><input type="radio" name="q20" value="B"> B) environment</label>
+                            <label class="option-label"><input type="radio" name="q20" value="C"> C) area</label>
+                            <label class="option-label"><input type="radio" name="q20" value="D"> D) method</label>
+                        </div>
+
+                        <!-- Fill-in Questions -->
                         <h2 class="card-title mt-5">Sentence Completion (10 points)</h2>
-                        <p>选择以下单词填空：</p>
+<<<<<<< HEAD
+                        <p>Choose from the following words:</p>
+=======
+                        <p>Choose one of the following words to complete each sentence:</p>
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
 
-                        <!-- 现代化词汇标签设计 -->
-                        <div class="vocabulary-container">
-                            <div class="vocabulary-item">statistically</div>
-                            <div class="vocabulary-item">combination</div>
-                            <div class="vocabulary-item">include</div>
-                            <div class="vocabulary-item">acknowledged</div>
-                            <div class="vocabulary-item">primary</div>
-                            <div class="vocabulary-item">increase</div>
-                            <div class="vocabulary-item">foundation</div>
-                            <div class="vocabulary-item">analysis</div>
-                            <div class="vocabulary-item">rate</div>
-                            <div class="vocabulary-item">instructions</div>
+                        <div class="word-bank">
+                            <div class="word-item">statistically</div>
+                            <div class="word-item">combination</div>
+                            <div class="word-item">include</div>
+                            <div class="word-item">acknowledged</div>
+                            <div class="word-item">primary</div>
+                            <div class="word-item">increase</div>
+                            <div class="word-item">foundation</div>
+                            <div class="word-item">analysis</div>
+                            <div class="word-item">rate</div>
+                            <div class="word-item">instructions</div>
                         </div>
 
-                        <div class="question">
-                            <p>21. The __________ objective of this study is to examine the impact of social media on
-                                adolescent
-                                mental health.</p>
+                        <div class="question-container">
+                            <p class="question-text">21. The __________ objective of this study is to examine the impact
+                                of social media on adolescent mental health.</p>
                             <input type="text" name="q21" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>22. The final phase of the experiment involves rigorous statistical _________ of the
-                                collected
-                                data.
-                            </p>
+                        <div class="question-container">
+                            <p class="question-text">22. The final phase of the experiment involves rigorous statistical
+                                _________ of the collected data.</p>
                             <input type="text" name="q22" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>23. The observed ___________ in student engagement was a positive outcome of the
-                                pedagogical
-                                innovation.</p>
+                        <div class="question-container">
+                            <p class="question-text">23. The observed ___________ in student engagement was a positive
+                                outcome of the pedagogical innovation.</p>
                             <input type="text" name="q23" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>24. The previous research on this topic provides a crucial _________ for understanding
-                                the
-                                current
-                                state of knowledge.</p>
+                        <div class="question-container">
+                            <p class="question-text">24. The previous research on this topic provides a crucial
+                                _________ for understanding the current state of knowledge.</p>
                             <input type="text" name="q24" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>25. It is relevant to ___________ detailed methodological information in the appendix of
-                                the
-                                research
-                                paper.</p>
+                        <div class="question-container">
+                            <p class="question-text">25. It is relevant to ___________ detailed methodological
+                                information in the appendix of the research paper.</p>
                             <input type="text" name="q25" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>26. The potential benefits of early childhood education are widely ___________ in
-                                developmental
-                                psychology.</p>
+                        <div class="question-container">
+                            <p class="question-text">26. The potential benefits of early childhood education are widely
+                                ___________ in developmental psychology.</p>
                             <input type="text" name="q26" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>27. The etiology of the disorder is highly complex, involving a ___________ of genetic
-                                and
-                                environmental factors.</p>
+                        <div class="question-container">
+                            <p class="question-text">27. The etiology of the disorder is highly complex, involving a
+                                ___________ of genetic and environmental factors.</p>
                             <input type="text" name="q27" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>28. Under normal laboratory conditions, the chemical reaction proceeds at a predictable
-                                _________.
-                            </p>
+                        <div class="question-container">
+                            <p class="question-text">28. Under normal laboratory conditions, the chemical reaction
+                                proceeds at a predictable _________.</p>
                             <input type="text" name="q28" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>29. The findings are ___________ significant, suggesting a genuine effect rather than
-                                random
-                                variation.</p>
+                        <div class="question-container">
+                            <p class="question-text">29. The findings are ___________ significant, suggesting a genuine
+                                effect rather than random variation.</p>
                             <input type="text" name="q29" placeholder="Type or click a word above">
                         </div>
 
-                        <div class="question">
-                            <p>30. For specific ___________ on data collection, please refer to section 3.2 of the
-                                manual.</p>
+                        <div class="question-container">
+                            <p class="question-text">30. For specific ___________ on data collection, please refer to
+                                section 3.2 of the manual.</p>
                             <input type="text" name="q30" placeholder="Type or click a word above">
                         </div>
 
-                        <button type="button" class="submit-btn" onclick="calculateScore()">提交答案</button>
+<<<<<<< HEAD
+                        <button type="button" class="submit-btn" onclick="calculateScore()">Submit Answers</button>
                     </form>
 
                     <div id="result"></div>
-                </div>
-            </div>
-
-            <!-- 排行榜卡片 -->
-            <div class="card mt-4" id="leaderboardCard" style="display: none;">
-                <div class="card-body">
-                    <h2 class="card-title text-center">Academic Vocabulary 竞赛排行榜</h2>
-
-                    <!-- 服务器状态 -->
-                    <div class="server-status" id="serverStatus">
-                        后端服务状态：<span class="status-badge status-offline">正在连接...</span>
-                        <button class="retry-btn" id="retryButton" style="display: none;">重试连接</button>
-                    </div>
-
-                    <div class="leaderboard">
-                        <div class="leaderboard-header">
-                            <div class="row">
-                                <div class="col-2">排名</div>
-                                <div class="col-5">昵称</div>
-                                <div class="col-2">分数</div>
-                                <div class="col-3 d-none d-md-block">准确率</div>
-                            </div>
-                        </div>
-                        <div id="leaderboardItems">
-                            <!-- 排行榜内容将由JS动态生成 -->
-                            <div class="loader" id="leaderboardLoader"></div>
-                        </div>
-                    </div>
-                    <div class="text-center mt-4">
-                        <button class="return-btn" onclick="showQuizResult()">返回我的成绩</button>
-                    </div>
+=======
+                        <button type="button" class="primary-btn" onclick="calculateScore()">Submit Answers</button>
+                    </form>
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
     <footer class="py-4 text-white">
@@ -907,137 +671,92 @@
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script>
+        // Encoded answers
         const encodedMcqAnswers = "QixCLEIsRCxCLEIsQixBLEQsQixDLEIsQSxELEEsQyxBLEEsRCxC";
         const encodedFillAnswers = "cHJpbWFyeSxhbmFseXNpcyxpbmNyZWFzZSxmb3VuZGF0aW9uLGluY2x1ZGUsYWNrbm93bGVkZ2VkLGNvbWJpbmF0aW9uLHJhdGUsc3RhdGlzdGljYWxseSxpbnN0cnVjdGlvbnM=";
 
-        // 存储用户昵称
-        let userNickname = "";
-        // 存储用户分数
-        let userScore = 0;
-        let userAccuracy = 0;
-        // Firebase引用
-        let db;
-        let connected = false;
-
-        // Firebase配置
-        const firebaseConfig = {
-            apiKey: "AIzaSyAOKe0n9obzJPDzCXbyEDpIINSJ3womdq0",
-            authDomain: "chloe-fc03a.firebaseapp.com",
-            databaseURL: "https://chloe-fc03a-default-rtdb.firebaseio.com",
-            projectId: "chloe-fc03a",
-            storageBucket: "chloe-fc03a.firebasestorage.app",
-            messagingSenderId: "748571719604",
-            appId: "1:748571719604:web:a24187ed08b20d9566e4e1"
-        };
-
-        // 初始化Firebase
-        function initFirebase() {
+<<<<<<< HEAD
+        function decodeAnswers(encoded) {
             try {
-                // 初始化Firebase
-                firebase.initializeApp(firebaseConfig);
-                // 获取数据库引用
-                db = firebase.database();
-
-                // 检查连接状态
-                const connectedRef = db.ref(".info/connected");
-                connectedRef.on("value", (snap) => {
-                    connected = snap.val() === true;
-                    updateServerStatus();
-                });
-
-                showToast("后端服务已连接", "success");
-                console.log("Firebase初始化成功");
-            } catch (error) {
-                console.error("Firebase初始化失败:", error);
-                showToast("无法连接到后端服务", "error");
-                connected = false;
-                updateServerStatus();
+                return atob(encoded).split(',');
+            } catch (e) {
+                console.error('验证失败');
+                return [];
             }
         }
 
-        // 更新服务器状态显示
-        function updateServerStatus() {
-            const statusElement = document.querySelector("#serverStatus .status-badge");
-            const retryButton = document.getElementById("retryButton");
+        function calculateScore() {
+            let score = 0;
+            let mcqScore = 0;
+            let fillScore = 0;
 
-            if (connected) {
-                statusElement.textContent = "在线";
-                statusElement.className = "status-badge status-online";
-                retryButton.style.display = "none";
-            } else {
-                statusElement.textContent = "离线";
-                statusElement.className = "status-badge status-offline";
-                retryButton.style.display = "inline-block";
-            }
-        }
+            try {
+                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
+                const fillAnswers = decodeAnswers(encodedFillAnswers);
 
-        // 显示通知消息
-        function showToast(message, type = "info") {
-            const toast = document.getElementById("toastMessage");
-            toast.textContent = message;
-            toast.className = "toast-message show " + type;
-
-            // 3秒后自动隐藏
-            setTimeout(() => {
-                toast.className = "toast-message";
-            }, 3000);
-        }
-
-        // 模拟的排行榜数据（仅在无法连接到Firebase时使用）
-        const mockLeaderboard = [
-            { nickname: "学霸王", score: 28, accuracy: 93.3 },
-            { nickname: "词汇达人", score: 27, accuracy: 90.0 },
-            { nickname: "英语小天才", score: 25, accuracy: 83.3 },
-            { nickname: "考试之王", score: 24, accuracy: 80.0 },
-            { nickname: "知识海绵", score: 23, accuracy: 76.7 },
-            { nickname: "学习机器", score: 21, accuracy: 70.0 },
-            { nickname: "努力的小白", score: 19, accuracy: 63.3 },
-            { nickname: "小小探索者", score: 18, accuracy: 60.0 },
-            { nickname: "潜力无限", score: 17, accuracy: 56.7 },
-            { nickname: "进步之星", score: 15, accuracy: 50.0 }
-        ];
-
-        // 获取排行榜数据
-        function fetchLeaderboard() {
-            document.getElementById("leaderboardLoader").style.display = "block";
-
-            if (!connected || !db) {
-                // 如果未连接到Firebase，使用本地数据
-                document.getElementById("leaderboardLoader").style.display = "none";
-                renderLeaderboard(getLocalLeaderboard());
-                return;
-            }
-
-            // 从Firebase获取数据
-            const leaderboardRef = db.ref('leaderboard');
-            leaderboardRef.once('value')
-                .then((snapshot) => {
-                    document.getElementById("leaderboardLoader").style.display = "none";
-                    let leaderboardData = snapshot.val();
-
-                    if (!leaderboardData || !Array.isArray(leaderboardData) || leaderboardData.length === 0) {
-                        // 如果Firebase中没有数据，使用本地数据
-                        leaderboardData = getLocalLeaderboard();
+                // 计算选择题得分
+                for (let i = 0; i < 20; i++) {
+                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
+                    if (selected && selected.value === mcqAnswers[i]) {
+                        score++;
+                        mcqScore++;
                     }
+                }
 
-                    renderLeaderboard(leaderboardData);
-                })
-                .catch((error) => {
-                    console.error("获取排行榜失败:", error);
-                    document.getElementById("leaderboardLoader").style.display = "none";
-                    // 使用本地数据作为备份
-                    renderLeaderboard(getLocalLeaderboard());
-                });
+                // 计算填空题得分
+                for (let i = 0; i < 10; i++) {
+                    const answer = document.querySelector(`input[name="q${21 + i}"]`).value.toLowerCase().trim();
+                    if (answer === fillAnswers[i]) {
+                        score++;
+                        fillScore++;
+                    }
+                }
+
+                // 显示结果
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `
+                    <h3>测试结果</h3>
+                    <p>选择题得分：${mcqScore}/20</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${mcqScore * 5}%"></div></div>
+                    <p>填空题得分：${fillScore}/10</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${fillScore * 10}%"></div></div>
+                    <p>总分：${score}/30</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${score / 30 * 100}%"></div></div>
+                    <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
+                `;
+
+                resultDiv.classList.add('show');
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+                alert('提交失败，请重试');
+            }
         }
 
         // 添加选词填空功能
+=======
+        // Timer variables
+        let startTime;
+        let timerInterval;
+        let totalSeconds = 0;
+
+        // Start timer and setup when page loads
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
         document.addEventListener('DOMContentLoaded', function () {
-            // 为词汇项添加点击事件
-            const vocabularyItems = document.querySelectorAll('.vocabulary-item');
+            setupWordSelection();
+            startTimer();
+        });
+
+        // Setup word selection functionality
+        function setupWordSelection() {
+            const wordItems = document.querySelectorAll('.word-item');
             let activeInput = null;
 
-            // 为所有填空题输入框添加焦点事件
+            // Add focus events to text inputs
             const fillInputs = document.querySelectorAll('input[type="text"][name^="q2"]');
             fillInputs.forEach(input => {
                 input.addEventListener('focus', function () {
@@ -1045,31 +764,31 @@
                 });
             });
 
-            // 为词汇项添加点击事件
-            vocabularyItems.forEach(item => {
+            // Add click events to word items
+            wordItems.forEach(item => {
                 item.addEventListener('click', function () {
                     if (activeInput) {
                         activeInput.value = this.textContent;
-                        // 查找下一个输入框并聚焦
+                        // Focus next input field
                         const currentIndex = Array.from(fillInputs).indexOf(activeInput);
                         if (currentIndex < fillInputs.length - 1) {
                             fillInputs[currentIndex + 1].focus();
                         }
                     } else if (fillInputs.length > 0) {
-                        // 如果没有活动输入框，则默认选择第一个
+                        // If no active input, select the first one
                         fillInputs[0].focus();
                         fillInputs[0].value = this.textContent;
                     }
                 });
             });
 
-            // 添加按键导航
+            // Keyboard navigation
             document.addEventListener('keydown', function (e) {
                 if (!activeInput) return;
 
                 const currentIndex = Array.from(fillInputs).indexOf(activeInput);
 
-                // Tab 键已经有默认行为，处理上下左右键
+                // Arrow key navigation
                 if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
                     e.preventDefault();
                     if (currentIndex < fillInputs.length - 1) {
@@ -1082,258 +801,105 @@
                     }
                 }
             });
-
-            // 处理回车键在昵称输入时提交
-            document.getElementById('nicknameInput').addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    startQuiz();
-                }
-            });
-
-            // 如果本地存储中有昵称，则自动填充
-            const savedNickname = localStorage.getItem('quizUserNickname');
-            if (savedNickname) {
-                document.getElementById('nicknameInput').value = savedNickname;
-            }
-
-            // 初始化Firebase
-            initFirebase();
+<<<<<<< HEAD
         });
-
-        // 开始测验
-        function startQuiz() {
-            const nicknameInput = document.getElementById('nicknameInput');
-            const nickname = nicknameInput.value.trim();
-
-            if (!nickname) {
-                showToast("请输入昵称后开始", "error");
-                return;
-            }
-
-            // 保存昵称
-            userNickname = nickname;
-            localStorage.setItem('quizUserNickname', nickname);
-
-            // 显示用户欢迎信息
-            document.getElementById('displayNickname').textContent = nickname;
-            document.getElementById('userWelcome').style.display = 'block';
-
-            // 隐藏欢迎模态框
-            document.getElementById('welcomeModal').classList.remove('show');
-
-            showToast(`欢迎参赛，${nickname}!`, "success");
+=======
         }
 
-        // 计算得分并提交
-        function calculateScore() {
-            try {
-                userScore = 0;
-                let mcqScore = 0;
-                let fillScore = 0;
+        // Start timer function
+        function startTimer() {
+            startTime = new Date();
 
-                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
-                const fillAnswers = decodeAnswers(encodedFillAnswers);
+            // Update timer display
+            timerInterval = setInterval(function () {
+                const now = new Date();
+                totalSeconds = Math.floor((now - startTime) / 1000);
 
-                // 计算选择题得分
-                for (let i = 0; i < 20; i++) {
-                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
-                    if (selected && selected.value === mcqAnswers[i]) {
-                        userScore++;
-                        mcqScore++;
-                    }
-                }
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
 
-                // 计算填空题得分
-                for (let i = 0; i < 10; i++) {
-                    const answer = document.querySelector(`input[name="q${21 + i}"]`).value.toLowerCase().trim();
-                    if (answer === fillAnswers[i]) {
-                        userScore++;
-                        fillScore++;
-                    }
-                }
-
-                // 计算准确率
-                userAccuracy = (userScore / 30) * 100;
-
-                // 添加到排行榜
-                addToLeaderboard(userNickname, userScore, userAccuracy);
-
-                // 显示结果
-                showQuizResult();
-
-            } catch (e) {
-                console.error("计算分数出错:", e);
-                showToast("计算分数时出错，请重试", "error");
-            }
+                document.getElementById('timer').innerHTML =
+                    `${(minutes < 10 ? '0' : '') + minutes}:${(seconds < 10 ? '0' : '') + seconds}`;
+            }, 1000);
         }
 
-        // 显示测验结果
-        function showQuizResult() {
-            document.getElementById('quizCard').style.display = 'block';
-            document.getElementById('leaderboardCard').style.display = 'none';
-
-            // 获取用户排名
-            const userRank = getUserRank(userNickname);
-
-            // 显示结果
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <h3>测试结果</h3>
-                <p>您的得分：${userScore}/30</p>
-                <div class="progress-bar"><div class="progress-fill" style="width:${userScore / 30 * 100}%"></div></div>
-                <p class="mt-3">准确率：${userAccuracy.toFixed(1)}%</p>
-                <p class="text-success fw-bold">您的排名：第 ${userRank} 名</p>
-                <div class="btn-container">
-                    <button onclick="window.location.href='quizzes.html'" class="return-btn">返回测验列表</button>
-                    <button onclick="showLeaderboard()" class="view-leaderboard-btn">查看排行榜</button>
-                </div>
-            `;
-
-            resultDiv.classList.add('show');
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        // Stop timer function
+        function stopTimer() {
+            clearInterval(timerInterval);
+            return formatTime(totalSeconds);
         }
 
-        // 显示排行榜
-        function showLeaderboard() {
-            document.getElementById('quizCard').style.display = 'none';
-            document.getElementById('leaderboardCard').style.display = 'block';
-            fetchLeaderboard();
+        // Format time
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
         }
 
-        // 解码答案
+        // Decode answers
         function decodeAnswers(encoded) {
             try {
                 return atob(encoded).split(',');
             } catch (e) {
-                console.error("解码答案失败:", e);
+                console.error("Failed to decode answers:", e);
                 return [];
             }
         }
 
-        // 向排行榜添加用户成绩
-        function addToLeaderboard(nickname, score, accuracy) {
-            if (!nickname || score === undefined) return;
+        // Calculate score
+        function calculateScore() {
+            // Stop the timer
+            const timeUsed = stopTimer();
 
-            // 获取当前排行榜
-            let leaderboard = getLocalLeaderboard();
+            let score = 0;
+            let mcqScore = 0;
+            let fillScore = 0;
 
-            // 查找是否已有该用户记录
-            const existingUserIndex = leaderboard.findIndex(entry => entry.nickname === nickname);
+            try {
+                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
+                const fillAnswers = decodeAnswers(encodedFillAnswers);
 
-            if (existingUserIndex !== -1) {
-                // 如果新分数更高，则更新
-                if (score > leaderboard[existingUserIndex].score) {
-                    leaderboard[existingUserIndex].score = score;
-                    leaderboard[existingUserIndex].accuracy = accuracy;
+                // Calculate multiple choice scores
+                for (let i = 0; i < 20; i++) {
+                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
+                    if (selected && selected.value === mcqAnswers[i]) {
+                        score++;
+                        mcqScore++;
+                    }
                 }
-            } else {
-                // 添加新用户
-                leaderboard.push({ nickname, score, accuracy });
-            }
 
-            // 排序
-            leaderboard.sort((a, b) => b.score - a.score);
-
-            // 只保留前20名
-            leaderboard = leaderboard.slice(0, 20);
-
-            // 保存到本地存储
-            localStorage.setItem('quizLeaderboard', JSON.stringify(leaderboard));
-
-            // 如果连接到Firebase，也保存到Firebase
-            if (connected && db) {
-                try {
-                    const leaderboardRef = db.ref('leaderboard');
-                    leaderboardRef.set(leaderboard)
-                        .then(() => {
-                            console.log("排行榜已更新到Firebase");
-                            showToast("成绩已提交到全球排行榜", "success");
-                        })
-                        .catch(error => {
-                            console.error("更新Firebase排行榜失败:", error);
-                            showToast("提交到全球排行榜失败，但已保存在本地", "error");
-                        });
-                } catch (error) {
-                    console.error("Firebase操作失败:", error);
+                // Calculate fill-in scores
+                for (let i = 0; i < 10; i++) {
+                    const answer = document.querySelector(`input[name="q${21 + i}"]`).value.toLowerCase().trim();
+                    if (answer === fillAnswers[i]) {
+                        score++;
+                        fillScore++;
+                    }
                 }
+
+                // Calculate accuracy
+                const accuracy = (score / 30) * 100;
+
+                // Show results
+                showResult(score, accuracy, timeUsed);
+
+            } catch (e) {
+                console.error("Error calculating score:", e);
+                alert('Submission failed, please try again');
             }
         }
 
-        // 获取用户排名
-        function getUserRank(nickname) {
-            if (!nickname) return "N/A";
+        // Show results
+        function showResult(score, accuracy, timeUsed) {
+            document.getElementById('resultScore').textContent = `${score}/30`;
+            document.getElementById('resultAccuracy').textContent = `Accuracy: ${accuracy.toFixed(1)}%`;
+            document.getElementById('resultTime').textContent = `Time: ${timeUsed}`;
 
-            const leaderboard = getLocalLeaderboard();
-            const userIndex = leaderboard.findIndex(entry => entry.nickname === nickname);
-
-            if (userIndex === -1) return "未上榜";
-            return userIndex + 1;
+            // Show the modal
+            document.getElementById('resultModal').classList.add('visible');
         }
-
-        // 获取本地排行榜数据
-        function getLocalLeaderboard() {
-            let leaderboard = [];
-
-            // 尝试从本地存储获取
-            const storedLeaderboard = localStorage.getItem('quizLeaderboard');
-
-            if (storedLeaderboard) {
-                try {
-                    leaderboard = JSON.parse(storedLeaderboard);
-                } catch (e) {
-                    console.error("解析本地排行榜数据失败:", e);
-                    leaderboard = [];
-                }
-            }
-
-            // 如果没有数据，使用模拟数据
-            if (leaderboard.length === 0) {
-                leaderboard = mockLeaderboard;
-            }
-
-            return leaderboard;
-        }
-
-        // 渲染排行榜
-        function renderLeaderboard(leaderboard) {
-            const leaderboardContainer = document.getElementById('leaderboardItems');
-            leaderboardContainer.innerHTML = '';
-
-            leaderboard.forEach((entry, index) => {
-                const isCurrentUser = entry.nickname === userNickname;
-                const itemClass = isCurrentUser ? 'leaderboard-item user-highlight' : 'leaderboard-item';
-
-                // 前三名特殊标记
-                let rankDisplay = (index + 1).toString();
-                if (index === 0) rankDisplay = '🥇';
-                else if (index === 1) rankDisplay = '🥈';
-                else if (index === 2) rankDisplay = '🥉';
-
-                const item = document.createElement('div');
-                item.className = itemClass;
-                item.innerHTML = `
-                    <div class="row">
-                        <div class="col-2 leaderboard-rank">${rankDisplay}</div>
-                        <div class="col-5 leaderboard-name">${entry.nickname}</div>
-                        <div class="col-2 leaderboard-score">${entry.score}</div>
-                        <div class="col-3 d-none d-md-block leaderboard-accuracy">${entry.accuracy.toFixed(1)}%</div>
-                    </div>
-                `;
-
-                leaderboardContainer.appendChild(item);
-            });
-        }
-
-        // 重试连接Firebase
-        document.getElementById('retryButton').addEventListener('click', function () {
-            showToast("正在重新连接服务器...", "info");
-            initFirebase();
-        });
+>>>>>>> c3d7c06df00896b40db30b0c23868ea1bbc89e3e
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>
