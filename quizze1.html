@@ -277,6 +277,31 @@
                 margin: 20px auto;
                 max-width: 95%;
             }
+
+            /* 优化手机版单词表格显示 */
+            .word-table {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                box-shadow: none;
+                background: transparent;
+            }
+
+            .word-table tr {
+                display: none;
+            }
+
+            .word-table td {
+                display: block;
+                width: 45%;
+                margin: 5px;
+                padding: 12px 8px !important;
+                font-size: 1rem;
+                font-weight: 500;
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
         }
 
         /* 添加返回按钮样式 */
