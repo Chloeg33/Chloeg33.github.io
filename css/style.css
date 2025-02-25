@@ -485,8 +485,8 @@ footer p {
 
     /* 导航栏移动端优化 */
     .navbar-brand {
-        font-size: 1rem;
-        max-width: 60%;
+        font-size: 0.85rem;
+        max-width: 50%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -494,6 +494,22 @@ footer p {
 
     .navbar .container {
         padding: 0 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .navbar-toggler {
+        padding: 2px;
+        margin-left: 0;
+        flex-shrink: 0;
+    }
+
+    .navbar-toggler-icon {
+        width: 18px;
+        height: 18px;
     }
 
     .navbar-nav {
