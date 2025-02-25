@@ -10,80 +10,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        :root {
-            --primary-color: #3f51b5;
-            --secondary-color: #f5f5f5;
-            --accent-color: #ff4081;
-            --text-color: #333;
-            --light-text: #666;
-            --border-color: #e0e0e0;
-            --success-color: #4CAF50;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            max-width: 100%;
-            background-color: #f9f9f9;
-            color: var(--text-color);
-            padding-top: 80px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            padding: 25px;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            text-align: center;
-            color: var(--accent-color);
-            margin-top: 0;
-            padding: 15px 0;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        h2 {
-            font-size: 1.4rem;
-            color: var(--accent-color);
-            margin-top: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
+        /* 测验特定样式 */
         .question {
             margin: 20px 0;
-            background: var(--secondary-color);
+            background-color: var(--apple-card);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .question:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
         }
 
         .question p {
             margin: 0 0 15px 0;
             font-size: 1.05rem;
             font-weight: 500;
+            color: var(--apple-text);
         }
 
         label {
@@ -91,15 +37,15 @@
             margin: 10px 0;
             padding: 12px;
             background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
 
         label:hover {
-            background: #f0f7ff;
-            border-color: var(--primary-color);
+            background: rgba(147, 112, 219, 0.05);
+            border-color: var(--main-pink);
         }
 
         input[type="radio"] {
@@ -111,21 +57,16 @@
             width: 100%;
             padding: 12px;
             margin: 8px 0;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
             font-size: 1rem;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         input[type="text"]:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(63, 81, 181, 0.2);
+            border-color: var(--main-pink);
+            box-shadow: 0 0 0 2px rgba(255, 107, 158, 0.2);
             outline: none;
-        }
-
-        .word-table {
-            display: none;
-            /* 隐藏原表格 */
         }
 
         .vocabulary-container {
@@ -140,8 +81,8 @@
 
         .vocabulary-item {
             background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
             padding: 10px 15px;
             font-size: 0.95rem;
             text-align: center;
@@ -152,8 +93,8 @@
         }
 
         .vocabulary-item:hover {
-            background: #f0f7ff;
-            border-color: var(--primary-color);
+            background: rgba(147, 112, 219, 0.05);
+            border-color: var(--main-pink);
             transform: translateY(-2px);
             box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
         }
@@ -165,21 +106,22 @@
         .submit-btn {
             width: 100%;
             padding: 15px;
-            background-color: var(--accent-color);
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: var(--apple-radius);
             cursor: pointer;
             font-size: 1.1rem;
             margin-top: 30px;
             transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+            font-weight: 500;
         }
 
         .submit-btn:hover {
-            background-color: #e91e63;
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
             transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
         }
 
         .submit-btn:active {
@@ -191,9 +133,9 @@
             padding: 20px;
             font-size: 1.1rem;
             text-align: center;
-            border-radius: 8px;
-            background: #f0f7ff;
-            box-shadow: var(--shadow);
+            border-radius: var(--apple-radius);
+            background: rgba(147, 112, 219, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.5s;
             display: none;
         }
@@ -204,172 +146,76 @@
         }
 
         #result h3 {
-            color: var(--primary-color);
+            color: var(--main-pink);
             margin-top: 0;
+            font-weight: 600;
         }
 
         .progress-bar {
             height: 10px;
             border-radius: 5px;
-            background: #e0e0e0;
+            background: var(--apple-border);
             margin-top: 5px;
+            overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
             border-radius: 5px;
-            background: var(--success-color);
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
             transition: width 1s;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        .return-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .return-btn:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .question {
+                padding: 15px;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .vocabulary-container {
+                gap: 8px;
+            }
+
+            .vocabulary-item {
+                padding: 8px 12px;
+                font-size: 0.9rem;
             }
         }
 
-        /* 导航栏移动端优化 */
-        @media (max-width: 600px) {
-
-            /* 词汇项在手机上的样式 */
+        @media (max-width: 576px) {
             .vocabulary-container {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 8px;
-                margin: 15px 0;
-                width: 100%;
             }
 
             .vocabulary-item {
-                padding: 12px 8px;
-                font-size: 1rem;
                 flex: 0 0 calc(45% - 10px);
-                display: inline-block;
-                background-color: white;
-                border: 1px solid var(--border-color);
-                z-index: 10;
-                position: relative;
-            }
-
-            body {
-                padding: 10px;
-                padding-top: 80px;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-                padding: 10px 0;
-            }
-
-            h2 {
-                font-size: 1.2rem;
-            }
-
-            .question {
-                padding: 15px;
-                margin: 15px 0;
-            }
-
-            .question p {
-                font-size: 0.95rem;
-                line-height: 1.4;
-                word-break: break-word;
-            }
-
-            label {
-                padding: 10px;
-                margin: 6px 0;
+                padding: 10px 8px;
                 font-size: 0.9rem;
             }
-
-            input[type="text"] {
-                font-size: 16px;
-                padding: 10px;
-            }
-
-            .word-table td {
-                padding: 8px !important;
-                font-size: 0.85rem;
-            }
-
-            .submit-btn {
-                padding: 12px;
-                font-size: 1rem;
-            }
-
-            /* 添加移动端表格居中样式 */
-            .word-table {
-                margin: 20px auto;
-                max-width: 95%;
-            }
-
-            /* 优化手机版单词表格显示 */
-            .word-table {
-                display: none;
-            }
-
-            .word-table tr {
-                display: none;
-            }
-
-            .word-table td {
-                display: none;
-            }
-        }
-
-        /* 添加返回按钮样式 */
-        .return-btn {
-            padding: 12px 25px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 20px;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-        }
-
-        .return-btn:hover {
-            background-color: #e91e63;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* 添加表单提交时的加载动画 */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, .3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* 添加正确答案的高亮效果 */
-        .correct-answer {
-            background-color: rgba(76, 175, 80, 0.1) !important;
-            border-color: var(--success-color) !important;
         }
     </style>
 </head>
@@ -398,289 +244,330 @@
         </div>
     </nav>
 
-    <div class="container">
-        <h1>Academic Vocabulary Test</h1>
-
-        <div class="section">
-            <h2>Multiple Choice Questions (20 points)</h2>
-            <form id="quizForm">
-                <!-- 选择题部分 -->
-                <div class="question">
-                    <p>1. The research paper offers a comprehensive ________ of the factors contributing to urban
-                        sprawl.
-                    </p>
-                    <label><input type="radio" name="q1" value="A"> A) formula</label>
-                    <label><input type="radio" name="q1" value="B"> B) analysis</label>
-                    <label><input type="radio" name="q1" value="C"> C) procedure</label>
-                    <label><input type="radio" name="q1" value="D"> D) context</label>
-                </div>
-
-                <div class="question">
-                    <p>2. Policymakers are considering a new ________ to mitigate the adverse effects of climate change
-                        on
-                        coastal communities.</p>
-                    <label><input type="radio" name="q2" value="A"> A) component</label>
-                    <label><input type="radio" name="q2" value="B"> B) approach</label>
-                    <label><input type="radio" name="q2" value="C"> C) opponent</label>
-                    <label><input type="radio" name="q2" value="D"> D) structure</label>
-                </div>
-
-                <div class="question">
-                    <p>3. Further investigation is needed to determine the specific ________ of the brain exhibiting
-                        abnormal neural activity during the task.</p>
-                    <label><input type="radio" name="q3" value="A"> A) binary</label>
-                    <label><input type="radio" name="q3" value="B"> B) area</label>
-                    <label><input type="radio" name="q3" value="C"> C) adaptive</label>
-                    <label><input type="radio" name="q3" value="D"> D) process</label>
-                </div>
-
-                <div class="question">
-                    <p>4. A thorough ________ of the proposed intervention strategy will be conducted to evaluate its
-                        feasibility and effectiveness.</p>
-                    <label><input type="radio" name="q4" value="A"> A) distribution</label>
-                    <label><input type="radio" name="q4" value="B"> B) interpretation</label>
-                    <label><input type="radio" name="q4" value="C"> C) definition</label>
-                    <label><input type="radio" name="q4" value="D"> D) assessment</label>
-                </div>
-
-                <div class="question">
-                    <p>5. We ________ that the observed correlation between socioeconomic status and academic
-                        achievement
-                        warrants further investigation into causal mechanisms.</p>
-                    <label><input type="radio" name="q5" value="A"> A) certain</label>
-                    <label><input type="radio" name="q5" value="B"> B) assume</label>
-                    <label><input type="radio" name="q5" value="C"> C) create</label>
-                    <label><input type="radio" name="q5" value="D"> D) simplify</label>
-                </div>
-
-                <div class="question">
-                    <p>6. Professor Klein is a recognized ________ in the domain of quantum physics, renowned for his
-                        groundbreaking contributions to string theory.</p>
-                    <label><input type="radio" name="q6" value="A"> A) principle</label>
-                    <label><input type="radio" name="q6" value="B"> B) authority</label>
-                    <label><input type="radio" name="q6" value="C"> C) concept</label>
-                    <label><input type="radio" name="q6" value="D"> D) evidence</label>
-                </div>
-
-                <div class="question">
-                    <p>7. The complete dataset is ________ upon request for researchers affiliated with accredited
-                        academic
-                        institutions.</p>
-                    <label><input type="radio" name="q7" value="A"> A) consistent</label>
-                    <label><input type="radio" name="q7" value="B"> B) available</label>
-                    <label><input type="radio" name="q7" value="C"> C) economic</label>
-                    <label><input type="radio" name="q7" value="D"> D) specific</label>
-                </div>
-
-                <div class="question">
-                    <p>8. The revised curriculum is designed to ________ students from diverse linguistic and cultural
-                        backgrounds, fostering inclusivity and academic success.</p>
-                    <label><input type="radio" name="q8" value="A"> A) benefit</label>
-                    <label><input type="radio" name="q8" value="B"> B) derive</label>
-                    <label><input type="radio" name="q8" value="C"> C) establish</label>
-                    <label><input type="radio" name="q8" value="D"> D) estimate</label>
-                </div>
-
-                <div class="question">
-                    <p>9. The overarching ________ of social justice, encompassing equity and human rights, is central
-                        to
-                        contemporary political discourse.</p>
-                    <label><input type="radio" name="q9" value="A"> A) context</label>
-                    <label><input type="radio" name="q9" value="B"> B) variability</label>
-                    <label><input type="radio" name="q9" value="C"> C) option</label>
-                    <label><input type="radio" name="q9" value="D"> D) concept</label>
-                </div>
-
-                <div class="question">
-                    <p>10. The experimental findings regarding the efficacy of the treatment are ________ with
-                        meta-analytic
-                        reviews of similar interventions.</p>
-                    <label><input type="radio" name="q10" value="A"> A) similar</label>
-                    <label><input type="radio" name="q10" value="B"> B) consistent</label>
-                    <label><input type="radio" name="q10" value="C"> C) significant</label>
-                    <label><input type="radio" name="q10" value="D"> D) major</label>
-                </div>
-
-                <div class="question">
-                    <p>11. The ethical and ________ dimensions of artificial intelligence necessitate careful
-                        consideration
-                        of potential societal ramifications.</p>
-                    <label><input type="radio" name="q11" value="A"> A) conditional</label>
-                    <label><input type="radio" name="q11" value="B"> B) financial</label>
-                    <label><input type="radio" name="q11" value="C"> C) legal</label>
-                    <label><input type="radio" name="q11" value="D"> D) environmental</label>
-                </div>
-
-                <div class="question">
-                    <p>12. To fully appreciate the theoretical underpinnings of the argument, it is imperative to
-                        examine
-                        the intellectual ________ in which it emerged.</p>
-                    <label><input type="radio" name="q12" value="A"> A) rule</label>
-                    <label><input type="radio" name="q12" value="B"> B) context</label>
-                    <label><input type="radio" name="q12" value="C"> C) structure</label>
-                    <label><input type="radio" name="q12" value="D"> D) approach</label>
-                </div>
-
-                <div class="question">
-                    <p>13. The two companies signed a ________ outlining the terms of their collaboration on the
-                        project.
-                    </p>
-                    <label><input type="radio" name="q13" value="A"> A) contract</label>
-                    <label><input type="radio" name="q13" value="B"> B) formula</label>
-                    <label><input type="radio" name="q13" value="C"> C) law</label>
-                    <label><input type="radio" name="q13" value="D"> D) procedure</label>
-                </div>
-
-                <div class="question">
-                    <p>14. Researchers are planning to ________ a series of experiments to test the efficacy of the new
-                        drug.</p>
-                    <label><input type="radio" name="q14" value="A"> A) create</label>
-                    <label><input type="radio" name="q14" value="B"> B) achieve</label>
-                    <label><input type="radio" name="q14" value="C"> C) obtain</label>
-                    <label><input type="radio" name="q14" value="D"> D) conduct</label>
-                </div>
-
-                <div class="question">
-                    <p>15. The ________ collected from the experiment will be used to test the hypothesis.</p>
-                    <label><input type="radio" name="q15" value="A"> A) data</label>
-                    <label><input type="radio" name="q15" value="B"> B) evidence</label>
-                    <label><input type="radio" name="q15" value="C"> C) variables</label>
-                    <label><input type="radio" name="q15" value="D"> D) factors</label>
-                </div>
-
-                <div class="question">
-                    <p>16. A precise ________ of the term 'globalization' is essential for academic discourse.</p>
-                    <label><input type="radio" name="q16" value="A"> A) interpretation</label>
-                    <label><input type="radio" name="q16" value="B"> B) analysis</label>
-                    <label><input type="radio" name="q16" value="C"> C) definition</label>
-                    <label><input type="radio" name="q16" value="D"> D) assessment</label>
-                </div>
-
-                <div class="question">
-                    <p>17. The therapeutic intervention is ________ from principles of cognitive behavioral therapy and
-                        mindfulness-based stress reduction.</p>
-                    <label><input type="radio" name="q17" value="A"> A) derived</label>
-                    <label><input type="radio" name="q17" value="B"> B) identified</label>
-                    <label><input type="radio" name="q17" value="C"> C) indicated</label>
-                    <label><input type="radio" name="q17" value="D"> D) established</label>
-                </div>
-
-                <div class="question">
-                    <p>18. The study investigates the spatial ________ of economic opportunities across urban and rural
-                        landscapes.</p>
-                    <label><input type="radio" name="q18" value="A"> A) distribution</label>
-                    <label><input type="radio" name="q18" value="B"> B) export</label>
-                    <label><input type="radio" name="q18" value="C"> C) income</label>
-                    <label><input type="radio" name="q18" value="D"> D) investment</label>
-                </div>
-
-                <div class="question">
-                    <p>19. The prevailing ________ paradigm in macroeconomic theory posits rational expectations and
-                        market
-                        equilibrium.</p>
-                    <label><input type="radio" name="q19" value="A"> A) financial</label>
-                    <label><input type="radio" name="q19" value="B"> B) labour</label>
-                    <label><input type="radio" name="q19" value="C"> C) legal</label>
-                    <label><input type="radio" name="q19" value="D"> D) economic</label>
-                </div>
-
-                <div class="question">
-                    <p>20. The conservation initiative aims to safeguard the fragile ________ and biodiversity of the
-                        Amazon
-                        rainforest.</p>
-                    <label><input type="radio" name="q20" value="A"> A) sector</label>
-                    <label><input type="radio" name="q20" value="B"> B) environment</label>
-                    <label><input type="radio" name="q20" value="C"> C) area</label>
-                    <label><input type="radio" name="q20" value="D"> D) method</label>
-                </div>
-
-                <h2>Sentence Completion (10 points)</h2>
-                <p>选择以下单词填空：</p>
-
-                <!-- 现代化词汇标签设计 -->
-                <div class="vocabulary-container">
-                    <div class="vocabulary-item">statistically</div>
-                    <div class="vocabulary-item">combination</div>
-                    <div class="vocabulary-item">include</div>
-                    <div class="vocabulary-item">acknowledged</div>
-                    <div class="vocabulary-item">primary</div>
-                    <div class="vocabulary-item">increase</div>
-                    <div class="vocabulary-item">foundation</div>
-                    <div class="vocabulary-item">analysis</div>
-                    <div class="vocabulary-item">rate</div>
-                    <div class="vocabulary-item">instructions</div>
-                </div>
-
-                <!-- 填空题部分 -->
-                <div class="question">
-                    <p>21. The __________ objective of this study is to examine the impact of social media on adolescent
-                        mental health.</p>
-                    <input type="text" name="q21">
-                </div>
-
-                <div class="question">
-                    <p>22. The final phase of the experiment involves rigorous statistical _________ of the collected
-                        data.
-                    </p>
-                    <input type="text" name="q22">
-                </div>
-
-                <div class="question">
-                    <p>23. The observed ___________ in student engagement was a positive outcome of the pedagogical
-                        innovation.</p>
-                    <input type="text" name="q23">
-                </div>
-
-                <div class="question">
-                    <p>24. The previous research on this topic provides a crucial _________ for understanding the
-                        current
-                        state of knowledge.</p>
-                    <input type="text" name="q24">
-                </div>
-
-                <div class="question">
-                    <p>25. It is relevant to ___________ detailed methodological information in the appendix of the
-                        research
-                        paper.</p>
-                    <input type="text" name="q25">
-                </div>
-
-                <div class="question">
-                    <p>26. The potential benefits of early childhood education are widely ___________ in developmental
-                        psychology.</p>
-                    <input type="text" name="q26">
-                </div>
-
-                <div class="question">
-                    <p>27. The etiology of the disorder is highly complex, involving a ___________ of genetic and
-                        environmental factors.</p>
-                    <input type="text" name="q27">
-                </div>
-
-                <div class="question">
-                    <p>28. Under normal laboratory conditions, the chemical reaction proceeds at a predictable
-                        _________.
-                    </p>
-                    <input type="text" name="q28">
-                </div>
-
-                <div class="question">
-                    <p>29. The findings are ___________ significant, suggesting a genuine effect rather than random
-                        variation.</p>
-                    <input type="text" name="q29">
-                </div>
-
-                <div class="question">
-                    <p>30. For specific ___________ on data collection, please refer to section 3.2 of the manual.</p>
-                    <input type="text" name="q30">
-                </div>
-
-                <button type="button" class="submit-btn" onclick="calculateScore()">提交答案</button>
-            </form>
+    <!-- Main Content -->
+    <header class="text-white text-center">
+        <div class="container">
+            <h1>Academic Vocabulary Test</h1>
+            <p class="lead">Test your knowledge of academic English vocabulary</p>
         </div>
+    </header>
 
-        <div id="result"></div>
-    </div>
+    <section>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <form id="quizForm">
+                        <!-- 选择题部分 -->
+                        <h2 class="card-title">Multiple Choice Questions (20 points)</h2>
+
+                        <div class="question">
+                            <p>1. The research paper offers a comprehensive ________ of the factors contributing to
+                                urban
+                                sprawl.</p>
+                            <label><input type="radio" name="q1" value="A"> A) formula</label>
+                            <label><input type="radio" name="q1" value="B"> B) analysis</label>
+                            <label><input type="radio" name="q1" value="C"> C) procedure</label>
+                            <label><input type="radio" name="q1" value="D"> D) context</label>
+                        </div>
+
+                        <div class="question">
+                            <p>2. Policymakers are considering a new ________ to mitigate the adverse effects of climate
+                                change
+                                on
+                                coastal communities.</p>
+                            <label><input type="radio" name="q2" value="A"> A) component</label>
+                            <label><input type="radio" name="q2" value="B"> B) approach</label>
+                            <label><input type="radio" name="q2" value="C"> C) opponent</label>
+                            <label><input type="radio" name="q2" value="D"> D) structure</label>
+                        </div>
+
+                        <div class="question">
+                            <p>3. Further investigation is needed to determine the specific ________ of the brain
+                                exhibiting
+                                abnormal neural activity during the task.</p>
+                            <label><input type="radio" name="q3" value="A"> A) binary</label>
+                            <label><input type="radio" name="q3" value="B"> B) area</label>
+                            <label><input type="radio" name="q3" value="C"> C) adaptive</label>
+                            <label><input type="radio" name="q3" value="D"> D) process</label>
+                        </div>
+
+                        <div class="question">
+                            <p>4. A thorough ________ of the proposed intervention strategy will be conducted to
+                                evaluate its
+                                feasibility and effectiveness.</p>
+                            <label><input type="radio" name="q4" value="A"> A) distribution</label>
+                            <label><input type="radio" name="q4" value="B"> B) interpretation</label>
+                            <label><input type="radio" name="q4" value="C"> C) definition</label>
+                            <label><input type="radio" name="q4" value="D"> D) assessment</label>
+                        </div>
+
+                        <div class="question">
+                            <p>5. We ________ that the observed correlation between socioeconomic status and academic
+                                achievement
+                                warrants further investigation into causal mechanisms.</p>
+                            <label><input type="radio" name="q5" value="A"> A) certain</label>
+                            <label><input type="radio" name="q5" value="B"> B) assume</label>
+                            <label><input type="radio" name="q5" value="C"> C) create</label>
+                            <label><input type="radio" name="q5" value="D"> D) simplify</label>
+                        </div>
+
+                        <div class="question">
+                            <p>6. Professor Klein is a recognized ________ in the domain of quantum physics, renowned
+                                for his
+                                groundbreaking contributions to string theory.</p>
+                            <label><input type="radio" name="q6" value="A"> A) principle</label>
+                            <label><input type="radio" name="q6" value="B"> B) authority</label>
+                            <label><input type="radio" name="q6" value="C"> C) concept</label>
+                            <label><input type="radio" name="q6" value="D"> D) evidence</label>
+                        </div>
+
+                        <div class="question">
+                            <p>7. The complete dataset is ________ upon request for researchers affiliated with
+                                accredited
+                                academic
+                                institutions.</p>
+                            <label><input type="radio" name="q7" value="A"> A) consistent</label>
+                            <label><input type="radio" name="q7" value="B"> B) available</label>
+                            <label><input type="radio" name="q7" value="C"> C) economic</label>
+                            <label><input type="radio" name="q7" value="D"> D) specific</label>
+                        </div>
+
+                        <div class="question">
+                            <p>8. The revised curriculum is designed to ________ students from diverse linguistic and
+                                cultural
+                                backgrounds, fostering inclusivity and academic success.</p>
+                            <label><input type="radio" name="q8" value="A"> A) benefit</label>
+                            <label><input type="radio" name="q8" value="B"> B) derive</label>
+                            <label><input type="radio" name="q8" value="C"> C) establish</label>
+                            <label><input type="radio" name="q8" value="D"> D) estimate</label>
+                        </div>
+
+                        <div class="question">
+                            <p>9. The overarching ________ of social justice, encompassing equity and human rights, is
+                                central
+                                to
+                                contemporary political discourse.</p>
+                            <label><input type="radio" name="q9" value="A"> A) context</label>
+                            <label><input type="radio" name="q9" value="B"> B) variability</label>
+                            <label><input type="radio" name="q9" value="C"> C) option</label>
+                            <label><input type="radio" name="q9" value="D"> D) concept</label>
+                        </div>
+
+                        <div class="question">
+                            <p>10. The experimental findings regarding the efficacy of the treatment are ________ with
+                                meta-analytic
+                                reviews of similar interventions.</p>
+                            <label><input type="radio" name="q10" value="A"> A) similar</label>
+                            <label><input type="radio" name="q10" value="B"> B) consistent</label>
+                            <label><input type="radio" name="q10" value="C"> C) significant</label>
+                            <label><input type="radio" name="q10" value="D"> D) major</label>
+                        </div>
+
+                        <div class="question">
+                            <p>11. The ethical and ________ dimensions of artificial intelligence necessitate careful
+                                consideration
+                                of potential societal ramifications.</p>
+                            <label><input type="radio" name="q11" value="A"> A) conditional</label>
+                            <label><input type="radio" name="q11" value="B"> B) financial</label>
+                            <label><input type="radio" name="q11" value="C"> C) legal</label>
+                            <label><input type="radio" name="q11" value="D"> D) environmental</label>
+                        </div>
+
+                        <div class="question">
+                            <p>12. To fully appreciate the theoretical underpinnings of the argument, it is imperative
+                                to
+                                examine
+                                the intellectual ________ in which it emerged.</p>
+                            <label><input type="radio" name="q12" value="A"> A) rule</label>
+                            <label><input type="radio" name="q12" value="B"> B) context</label>
+                            <label><input type="radio" name="q12" value="C"> C) structure</label>
+                            <label><input type="radio" name="q12" value="D"> D) approach</label>
+                        </div>
+
+                        <div class="question">
+                            <p>13. The two companies signed a ________ outlining the terms of their collaboration on the
+                                project.
+                            </p>
+                            <label><input type="radio" name="q13" value="A"> A) contract</label>
+                            <label><input type="radio" name="q13" value="B"> B) formula</label>
+                            <label><input type="radio" name="q13" value="C"> C) law</label>
+                            <label><input type="radio" name="q13" value="D"> D) procedure</label>
+                        </div>
+
+                        <div class="question">
+                            <p>14. Researchers are planning to ________ a series of experiments to test the efficacy of
+                                the new
+                                drug.</p>
+                            <label><input type="radio" name="q14" value="A"> A) create</label>
+                            <label><input type="radio" name="q14" value="B"> B) achieve</label>
+                            <label><input type="radio" name="q14" value="C"> C) obtain</label>
+                            <label><input type="radio" name="q14" value="D"> D) conduct</label>
+                        </div>
+
+                        <div class="question">
+                            <p>15. The ________ collected from the experiment will be used to test the hypothesis.</p>
+                            <label><input type="radio" name="q15" value="A"> A) data</label>
+                            <label><input type="radio" name="q15" value="B"> B) evidence</label>
+                            <label><input type="radio" name="q15" value="C"> C) variables</label>
+                            <label><input type="radio" name="q15" value="D"> D) factors</label>
+                        </div>
+
+                        <div class="question">
+                            <p>16. A precise ________ of the term 'globalization' is essential for academic discourse.
+                            </p>
+                            <label><input type="radio" name="q16" value="A"> A) interpretation</label>
+                            <label><input type="radio" name="q16" value="B"> B) analysis</label>
+                            <label><input type="radio" name="q16" value="C"> C) definition</label>
+                            <label><input type="radio" name="q16" value="D"> D) assessment</label>
+                        </div>
+
+                        <div class="question">
+                            <p>17. The therapeutic intervention is ________ from principles of cognitive behavioral
+                                therapy and
+                                mindfulness-based stress reduction.</p>
+                            <label><input type="radio" name="q17" value="A"> A) derived</label>
+                            <label><input type="radio" name="q17" value="B"> B) identified</label>
+                            <label><input type="radio" name="q17" value="C"> C) indicated</label>
+                            <label><input type="radio" name="q17" value="D"> D) established</label>
+                        </div>
+
+                        <div class="question">
+                            <p>18. The study investigates the spatial ________ of economic opportunities across urban
+                                and rural
+                                landscapes.</p>
+                            <label><input type="radio" name="q18" value="A"> A) distribution</label>
+                            <label><input type="radio" name="q18" value="B"> B) export</label>
+                            <label><input type="radio" name="q18" value="C"> C) income</label>
+                            <label><input type="radio" name="q18" value="D"> D) investment</label>
+                        </div>
+
+                        <div class="question">
+                            <p>19. The prevailing ________ paradigm in macroeconomic theory posits rational expectations
+                                and
+                                market
+                                equilibrium.</p>
+                            <label><input type="radio" name="q19" value="A"> A) financial</label>
+                            <label><input type="radio" name="q19" value="B"> B) labour</label>
+                            <label><input type="radio" name="q19" value="C"> C) legal</label>
+                            <label><input type="radio" name="q19" value="D"> D) economic</label>
+                        </div>
+
+                        <div class="question">
+                            <p>20. The conservation initiative aims to safeguard the fragile ________ and biodiversity
+                                of the
+                                Amazon
+                                rainforest.</p>
+                            <label><input type="radio" name="q20" value="A"> A) sector</label>
+                            <label><input type="radio" name="q20" value="B"> B) environment</label>
+                            <label><input type="radio" name="q20" value="C"> C) area</label>
+                            <label><input type="radio" name="q20" value="D"> D) method</label>
+                        </div>
+
+                        <!-- 填空题部分 -->
+                        <h2 class="card-title mt-5">Sentence Completion (10 points)</h2>
+                        <p>选择以下单词填空：</p>
+
+                        <!-- 现代化词汇标签设计 -->
+                        <div class="vocabulary-container">
+                            <div class="vocabulary-item">statistically</div>
+                            <div class="vocabulary-item">combination</div>
+                            <div class="vocabulary-item">include</div>
+                            <div class="vocabulary-item">acknowledged</div>
+                            <div class="vocabulary-item">primary</div>
+                            <div class="vocabulary-item">increase</div>
+                            <div class="vocabulary-item">foundation</div>
+                            <div class="vocabulary-item">analysis</div>
+                            <div class="vocabulary-item">rate</div>
+                            <div class="vocabulary-item">instructions</div>
+                        </div>
+
+                        <div class="question">
+                            <p>21. The __________ objective of this study is to examine the impact of social media on
+                                adolescent
+                                mental health.</p>
+                            <input type="text" name="q21" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>22. The final phase of the experiment involves rigorous statistical _________ of the
+                                collected
+                                data.
+                            </p>
+                            <input type="text" name="q22" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>23. The observed ___________ in student engagement was a positive outcome of the
+                                pedagogical
+                                innovation.</p>
+                            <input type="text" name="q23" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>24. The previous research on this topic provides a crucial _________ for understanding
+                                the
+                                current
+                                state of knowledge.</p>
+                            <input type="text" name="q24" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>25. It is relevant to ___________ detailed methodological information in the appendix of
+                                the
+                                research
+                                paper.</p>
+                            <input type="text" name="q25" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>26. The potential benefits of early childhood education are widely ___________ in
+                                developmental
+                                psychology.</p>
+                            <input type="text" name="q26" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>27. The etiology of the disorder is highly complex, involving a ___________ of genetic
+                                and
+                                environmental factors.</p>
+                            <input type="text" name="q27" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>28. Under normal laboratory conditions, the chemical reaction proceeds at a predictable
+                                _________.
+                            </p>
+                            <input type="text" name="q28" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>29. The findings are ___________ significant, suggesting a genuine effect rather than
+                                random
+                                variation.</p>
+                            <input type="text" name="q29" placeholder="Type or click a word above">
+                        </div>
+
+                        <div class="question">
+                            <p>30. For specific ___________ on data collection, please refer to section 3.2 of the
+                                manual.</p>
+                            <input type="text" name="q30" placeholder="Type or click a word above">
+                        </div>
+
+                        <button type="button" class="submit-btn" onclick="calculateScore()">提交答案</button>
+                    </form>
+
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-white">
+        <div class="container text-center">
+            <p>Designed with ❤️ by Chloe | © 2025 All Rights Reserved</p>
+        </div>
+    </footer>
 
     <script>
         const encodedMcqAnswers = "QixCLEIsRCxCLEIsQixBLEQsQixDLEIsQSxELEEsQyxBLEEsRCxC";
@@ -772,6 +659,26 @@
                         fillInputs[0].value = this.textContent;
                     }
                 });
+            });
+
+            // 添加按键导航
+            document.addEventListener('keydown', function (e) {
+                if (!activeInput) return;
+
+                const currentIndex = Array.from(fillInputs).indexOf(activeInput);
+
+                // Tab 键已经有默认行为，处理上下左右键
+                if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (currentIndex < fillInputs.length - 1) {
+                        fillInputs[currentIndex + 1].focus();
+                    }
+                } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (currentIndex > 0) {
+                        fillInputs[currentIndex - 1].focus();
+                    }
+                }
             });
         });
     </script>
