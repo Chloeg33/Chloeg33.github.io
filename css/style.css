@@ -50,43 +50,98 @@ section {
 
 /* 导航栏样式 */
 .navbar {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    /* 提高透明度，更好的移动可见性 */
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-    padding: 12px 0;
-    /* 移动端导航栏高度略小 */
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
     width: 100%;
     z-index: 1030;
-    /* 确保导航总在最上层 */
+    transition: all 0.3s ease;
 }
 
 .navbar-brand {
-    font-weight: 600;
-    color: var(--main-pink) !important;
-    font-size: 1.2rem;
-    /* 移动端略小 */
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--main-pink), var(--main-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    font-size: 1.25rem;
+    letter-spacing: -0.5px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: translateY(-2px);
 }
 
 .nav-link {
     font-weight: 500;
-    color: var(--apple-secondary-text) !important;
+    color: var(--apple-text) !important;
     padding: 8px 16px !important;
-    transition: color 0.2s;
+    margin: 0 4px;
+    border-radius: var(--apple-radius-sm);
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(45deg, var(--main-pink), var(--main-purple));
+    bottom: 4px;
+    left: 16px;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--main-pink) !important;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.nav-link:hover:after {
+    width: calc(100% - 32px);
+}
+
+.nav-link.active {
+    color: var(--main-pink) !important;
+    font-weight: 600;
+}
+
+.nav-link.active:after {
+    width: calc(100% - 32px);
 }
 
 /* 移动导航特定样式 */
 .navbar-collapse {
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    background-color: rgba(255, 255, 255, 0.98) !important;
     border-radius: var(--apple-radius);
-    padding: 10px 0;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    width: auto !important;
+    display: inline-block !important;
+    margin-left: auto;
+    margin-right: 0;
+    position: absolute;
+    right: 10px;
+    top: 100%;
 }
 
 .navbar-toggler {
     border: none;
     padding: 8px;
     border-radius: var(--apple-radius-sm);
+    background: linear-gradient(45deg, rgba(255, 107, 158, 0.1), rgba(147, 112, 219, 0.1));
+    transition: all 0.2s ease;
+}
+
+.navbar-toggler:hover {
+    background: linear-gradient(45deg, rgba(255, 107, 158, 0.2), rgba(147, 112, 219, 0.2));
 }
 
 .navbar-toggler:focus {
@@ -97,6 +152,14 @@ section {
 .navbar-toggler-icon {
     width: 24px;
     height: 24px;
+}
+
+.navbar-nav {
+    width: auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
 }
 
 /* 页面标题区域 */
@@ -484,16 +547,20 @@ footer p {
     }
 
     /* 导航栏移动端优化 */
+    .navbar {
+        padding: 10px 0;
+    }
+
     .navbar-brand {
-        font-size: 0.85rem;
-        max-width: 50%;
+        font-size: 1rem;
+        max-width: 70%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
     .navbar .container {
-        padding: 0 5px;
+        padding: 0 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -502,23 +569,60 @@ footer p {
     }
 
     .navbar-toggler {
-        padding: 2px;
-        margin-left: 0;
+        padding: 5px;
+        margin-left: 5px;
         flex-shrink: 0;
     }
 
     .navbar-toggler-icon {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
     }
 
     .navbar-nav {
-        gap: 0;
+        gap: 5px;
+        padding: 5px 10px;
+        min-width: 180px;
     }
 
     .nav-link {
-        padding: 5px 8px !important;
-        font-size: 0.85rem;
+        padding: 8px 12px !important;
+        font-size: 0.9rem;
+        margin: 2px 0;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .nav-link:after {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 3px;
+    }
+
+    .nav-link:hover:after,
+    .nav-link.active:after {
+        width: 50%;
+    }
+
+    /* 确保下拉菜单宽度合适 */
+    .navbar-collapse {
+        min-width: 0;
+        width: auto !important;
+        right: 15px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        position: static;
+        width: auto !important;
+        background-color: transparent !important;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
     }
 }
 
