@@ -1,0 +1,524 @@
+/* 粉色紫色渐变风格UI全局样式 */
+:root {
+    --main-pink: #ff6b9e;
+    --light-pink: #ffa5c3;
+    --main-purple: #9370db;
+    --light-purple: #b39ddb;
+    --gradient-start: #ff6b9e;
+    --gradient-end: #9370db;
+    --apple-background: #f8f6fa;
+    --apple-card: #ffffff;
+    --apple-text: #1d1d1f;
+    --apple-secondary-text: #86868b;
+    --apple-border: rgba(0, 0, 0, 0.1);
+    --apple-radius: 12px;
+    --apple-radius-sm: 8px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: var(--apple-text);
+    background-color: var(--apple-background);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    /* 防止iPhone上的文字自动缩放 */
+    overflow-x: hidden;
+    /* 防止水平溢出 */
+}
+
+/* 容器和间距 */
+.container {
+    max-width: 1200px;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+section {
+    padding: 60px 0;
+    width: 100%;
+    overflow-x: hidden;
+    /* 防止内容溢出 */
+}
+
+.card,
+.btn,
+.form-control {
+    border-radius: var(--apple-radius);
+}
+
+/* 导航栏样式 */
+.navbar {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    /* 提高透明度，更好的移动可见性 */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    padding: 12px 0;
+    /* 移动端导航栏高度略小 */
+    width: 100%;
+    z-index: 1030;
+    /* 确保导航总在最上层 */
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--main-pink) !important;
+    font-size: 1.2rem;
+    /* 移动端略小 */
+}
+
+.nav-link {
+    font-weight: 500;
+    color: var(--apple-secondary-text) !important;
+    padding: 8px 16px !important;
+    transition: color 0.2s;
+}
+
+/* 移动导航特定样式 */
+.navbar-collapse {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-radius: var(--apple-radius);
+    padding: 10px 0;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 8px;
+    border-radius: var(--apple-radius-sm);
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* 页面标题区域 */
+header {
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%) !important;
+    padding: 70px 0 60px !important;
+    /* 移动端上下内边距调整 */
+    margin-bottom: 30px;
+}
+
+header h1 {
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-size: 2.5rem;
+    /* 默认更小，适合移动端 */
+    line-height: 1.2;
+}
+
+header .lead {
+    font-size: 1.2rem;
+    /* 默认更小，适合移动端 */
+    font-weight: 400;
+    max-width: 100%;
+    /* 允许全宽 */
+    margin: 0 auto;
+    opacity: 0.9;
+    padding: 0 15px;
+}
+
+/* 卡片样式 */
+.card {
+    border: none;
+    background-color: var(--apple-card);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 在移动设备上禁用悬停效果变换，改用轻微放大 */
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+    }
+}
+
+/* 移动设备上的触摸效果 */
+@media (hover: none) {
+    .card:active {
+        transform: scale(0.98);
+        transition: transform 0.2s;
+    }
+}
+
+.card-body {
+    padding: 24px 20px;
+    /* 移动端内边距调整 */
+}
+
+.card-title {
+    font-weight: 600;
+    color: var(--main-pink);
+    margin-bottom: 12px;
+    font-size: 1.4rem;
+    /* 移动端标题略小 */
+}
+
+.card-text {
+    color: var(--apple-secondary-text);
+    font-size: 1rem;
+    /* 移动端正文略小 */
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.bg-light {
+    background-color: rgba(147, 112, 219, 0.05) !important;
+}
+
+/* 按钮样式 - 触摸友好 */
+.btn {
+    padding: 12px 20px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-height: 44px;
+    /* 触摸友好的最小高度 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 在触摸设备上的按钮反馈 */
+@media (hover: none) {
+    .btn:active {
+        transform: scale(0.96);
+    }
+}
+
+.btn-primary {
+    background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #ff5a93, #8a63d2);
+    box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
+}
+
+.btn-secondary {
+    background-color: #f5f5f7;
+    color: var(--apple-text);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:hover {
+    background-color: #e5e5e7;
+    color: var(--apple-text);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 页脚样式 */
+footer {
+    background: linear-gradient(135deg, var(--main-pink) 0%, var(--main-purple) 100%) !important;
+    padding: 40px 0 30px !important;
+}
+
+footer p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+/* 测试和游戏容器 */
+#quizContainer,
+#gameContainer {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border-radius: var(--apple-radius);
+    background-color: var(--apple-card);
+    padding: 24px 20px !important;
+    /* 移动端内边距调整 */
+    width: 100%;
+}
+
+/* 选项组样式优化 */
+.options-container .form-check {
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: var(--apple-radius-sm);
+    border: 1px solid var(--apple-border);
+    transition: all 0.2s;
+}
+
+.options-container .form-check:hover {
+    background-color: rgba(255, 107, 158, 0.05);
+    border-color: var(--main-pink);
+}
+
+.options-container .form-check-input {
+    margin-top: 0.2rem;
+    /* 调整单选按钮位置 */
+    min-width: 18px;
+    min-height: 18px;
+    /* 触摸友好尺寸 */
+}
+
+.options-container .form-check-label {
+    padding-left: 8px;
+    font-size: 1rem;
+}
+
+/* 进度条美化 */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background-color: rgba(255, 107, 158, 0.1);
+}
+
+.progress-bar {
+    background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+}
+
+/* 表单和输入框 - 触摸友好调整 */
+.form-control {
+    padding: 12px 16px;
+    border: 1px solid var(--apple-border);
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s;
+    font-size: 16px;
+    /* 防止iOS自动缩放 */
+    min-height: 44px;
+    /* 触摸友好尺寸 */
+}
+
+.form-control:focus {
+    border-color: var(--main-pink);
+    box-shadow: 0 0 0 4px rgba(255, 107, 158, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--apple-text);
+}
+
+/* 动画和过渡效果 */
+.page-transition-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.page-transition-out {
+    animation: fadeOut 0.3s ease-in-out;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* 卡片可见性动画 */
+.card:not(.card-visible) {
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+.card.card-visible {
+    animation: cardFadeIn 0.8s ease-in-out forwards;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 通知样式 - 移动优化 */
+.notification {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 16px 20px;
+    border-radius: var(--apple-radius);
+    background-color: var(--apple-card);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1040;
+    transition: all 0.3s ease;
+    width: 90%;
+    max-width: 400px;
+}
+
+.notification.show {
+    top: 20px;
+}
+
+.notification-success {
+    border-left: 4px solid #4CD964;
+}
+
+.notification-error {
+    border-left: 4px solid #FF3B30;
+}
+
+.notification-info {
+    border-left: 4px solid var(--main-pink);
+}
+
+/* 专为移动设备优化的响应式调整 */
+@media (max-width: 992px) {
+    section {
+        padding: 50px 0;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 60px 0 50px !important;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    header .lead {
+        font-size: 1.1rem;
+    }
+
+    section {
+        padding: 40px 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .btn {
+        width: 100%;
+        /* 移动端全宽按钮 */
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    header {
+        padding: 50px 0 40px !important;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header .lead {
+        font-size: 1rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    .card-text {
+        font-size: 0.95rem;
+    }
+
+    /* 改进移动端卡片排版 */
+    .card-body {
+        padding: 16px;
+    }
+
+    /* 确保溢出内容被合理处理 */
+    pre,
+    code {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    /* 表格优化 */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 移动触摸优化 */
+@media (hover: none) {
+
+    /* 提高所有交互元素的触摸区域 */
+    .nav-link,
+    .btn,
+    .form-check,
+    button,
+    a {
+        padding: 10px !important;
+    }
+
+    /* 调整滚动行为 */
+    html,
+    body {
+        overflow-x: hidden;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* 针对iPhone刘海屏的特殊处理 */
+@supports (padding: max(0px)) {
+    .navbar {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+
+    .container {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+    }
+
+    .fixed-bottom,
+    footer {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+}
