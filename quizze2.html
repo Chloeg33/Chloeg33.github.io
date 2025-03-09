@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Academic Vocabulary Quiz 01 | Chloe's Classroom Space Station</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 测验特定样式 */
+        .question {
+            margin: 20px 0;
+            background-color: var(--apple-card);
+            padding: 20px;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+        }
+
+        .question p {
+            margin: 0 0 15px 0;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--apple-text);
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        label:hover {
+            background: rgba(147, 112, 219, 0.05);
+            border-color: var(--main-pink);
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--main-pink);
+            box-shadow: 0 0 0 2px rgba(255, 107, 158, 0.2);
+            outline: none;
+        }
+
+        .vocabulary-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .vocabulary-item {
+            background: white;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .vocabulary-item:hover {
+            background: rgba(147, 112, 219, 0.05);
+            border-color: var(--main-pink);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+        }
+
+        .vocabulary-item:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 30px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+            font-weight: 500;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+            border-radius: var(--apple-radius);
+            background: rgba(147, 112, 219, 0.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.5s;
+            display: none;
+        }
+
+        #result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        #result h3 {
+            color: var(--main-pink);
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 10px;
+            border-radius: 5px;
+            background: var(--apple-border);
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            transition: width 1s;
+        }
+
+        .return-btn {
+            padding: 12px 25px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(255, 107, 158, 0.3);
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .return-btn:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
+        }
+
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .question {
+                padding: 15px;
+            }
+
+            .vocabulary-container {
+                gap: 8px;
+            }
+
+            .vocabulary-item {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .vocabulary-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .vocabulary-item {
+                flex: 0 0 calc(45% - 10px);
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* 昵称模态框样式 */
+        .nickname-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nickname-modal-content {
+            background: white;
+            border-radius: var(--apple-radius);
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .nickname-modal h3 {
+            margin-top: 0;
+            color: var(--main-pink);
+            margin-bottom: 20px;
+        }
+
+        .nickname-modal input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid var(--apple-border);
+            border-radius: var(--apple-radius-sm);
+            font-size: 1rem;
+        }
+
+        .nickname-modal button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, var(--main-pink), var(--main-purple));
+            color: white;
+            border: none;
+            border-radius: var(--apple-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .nickname-modal button:hover {
+            background: linear-gradient(to right, #ff5a93, #8a63d2);
+            transform: translateY(-2px);
+        }
+
+        /* 计时器样式 */
+        .timer-display {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .timer-display i {
+            margin-right: 6px;
+            color: var(--main-pink);
+        }
+
+        @media (max-width: 768px) {
+            .timer-display {
+                top: 70px;
+                right: 10px;
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Chloe's Classroom Space Station</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="quizzes.html">Interactive Quizzes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="games.html">English Games</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 昵称输入模态框 -->
+    <div id="nicknameModal" class="nickname-modal">
+        <div class="nickname-modal-content">
+            <h3>Welcome to the Academic Vocabulary Quiz 01</h3>
+            <p>Please enter your nickname to start the test:</p>
+            <input type="text" id="nickname" placeholder="Your Nickname" required>
+            <button onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- 计时器显示 -->
+    <div id="timerDisplay" class="timer-display" style="display:none;">
+        <i class="fas fa-clock"></i> <span id="timer">00:00</span>
+    </div>
+
+    <!-- Main Content -->
+    <header class="text-white text-center">
+        <div class="container">
+            <h1>Academic Vocabulary Quiz 01</h1>
+            <p class="lead">Test your knowledge of academic English vocabulary</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <form id="quizForm">
+                        <!-- 选择题部分 -->
+                        <h2 class="card-title">Academic Vocabulary Quiz 01 (30 points)</h2>
+                        <p class="mb-4">Choose the best word to complete each sentence.</p>
+
+                        <div class="question">
+                            <p>1. The term stress is ___________ to stimuli or events in our environment that make
+                                physical and emotional demands on us.</p>
+                            <label><input type="radio" name="q1" value="A"> A) applied</label>
+                            <label><input type="radio" name="q1" value="B"> B) resisted</label>
+                            <label><input type="radio" name="q1" value="C"> C) adapted</label>
+                            <label><input type="radio" name="q1" value="D"> D) ignored</label>
+                        </div>
+
+                        <div class="question">
+                            <p>2. Many sorts of events can be __________, including disasters, major life events, and
+                                daily hassles.</p>
+                            <label><input type="radio" name="q2" value="A"> A) stressors</label>
+                            <label><input type="radio" name="q2" value="B"> B) reactions</label>
+                            <label><input type="radio" name="q2" value="C"> C) syndromes</label>
+                            <label><input type="radio" name="q2" value="D"> D) appraisals</label>
+                        </div>
+
+                        <div class="question">
+                            <p>3. When stressors _________ with our accustomed way of life, we must deal with them.</p>
+                            <label><input type="radio" name="q3" value="A"> A) interfere</label>
+                            <label><input type="radio" name="q3" value="B"> B) contribute</label>
+                            <label><input type="radio" name="q3" value="C"> C) enhance</label>
+                            <label><input type="radio" name="q3" value="D"> D) support</label>
+                        </div>
+
+                        <div class="question">
+                            <p>4. How well we succeed in doing so will _________ how serious a toll stress will take on
+                                our well-being.</p>
+                            <label><input type="radio" name="q4" value="A"> A) determine</label>
+                            <label><input type="radio" name="q4" value="B"> B) exaggerate</label>
+                            <label><input type="radio" name="q4" value="C"> C) minimize</label>
+                            <label><input type="radio" name="q4" value="D"> D) disregard</label>
+                        </div>
+
+                        <div class="question">
+                            <p>5. Seyle proposed that humans react to any stressor in three stages, known as the general
+                                _________ syndrome.</p>
+                            <label><input type="radio" name="q5" value="A"> A) adaptation</label>
+                            <label><input type="radio" name="q5" value="B"> B) resistance</label>
+                            <label><input type="radio" name="q5" value="C"> C) exhaustion</label>
+                            <label><input type="radio" name="q5" value="D"> D) alarm</label>
+                        </div>
+
+                        <div class="question">
+                            <p>6. The first stage of the general adaptation syndrome is the __________ reaction, where
+                                the body becomes highly alert.</p>
+                            <label><input type="radio" name="q6" value="A"> A) alarm</label>
+                            <label><input type="radio" name="q6" value="B"> B) resistance</label>
+                            <label><input type="radio" name="q6" value="C"> C) exhaustion</label>
+                            <label><input type="radio" name="q6" value="D"> D) recovery</label>
+                        </div>
+
+                        <div class="question">
+                            <p>7. After the alarm reaction, the organism enters the stage of __________, trying to adapt
+                                to the stress.</p>
+                            <label><input type="radio" name="q7" value="A"> A) resistance</label>
+                            <label><input type="radio" name="q7" value="B"> B) exhaustion</label>
+                            <label><input type="radio" name="q7" value="C"> C) denial</label>
+                            <label><input type="radio" name="q7" value="D"> D) avoidance</label>
+                        </div>
+
+                        <div class="question">
+                            <p>8. If the organism cannot adapt, it enters a stage of __________, or collapse.</p>
+                            <label><input type="radio" name="q8" value="A"> A) exhaustion</label>
+                            <label><input type="radio" name="q8" value="B"> B) equilibrium</label>
+                            <label><input type="radio" name="q8" value="C"> C) adaptation</label>
+                            <label><input type="radio" name="q8" value="D"> D) normalization</label>
+                        </div>
+
+                        <div class="question">
+                            <p>9. Whether a particular ________ will be stressful depends on the person's subjective
+                                appraisal of that stimulus.</p>
+                            <label><input type="radio" name="q9" value="A"> A) stimulus</label>
+                            <label><input type="radio" name="q9" value="B"> B) response</label>
+                            <label><input type="radio" name="q9" value="C"> C) condition</label>
+                            <label><input type="radio" name="q9" value="D"> D) factor</label>
+                        </div>
+
+                        <div class="question">
+                            <p>10. The specific stress reaction is likely to ________ widely; some give rise to anger,
+                                and some to helplessness.</p>
+                            <label><input type="radio" name="q10" value="A"> A) vary</label>
+                            <label><input type="radio" name="q10" value="B"> B) stabilize</label>
+                            <label><input type="radio" name="q10" value="C"> C) converge</label>
+                            <label><input type="radio" name="q10" value="D"> D) diminish</label>
+                        </div>
+
+                        <div class="question">
+                            <p>11. One of the lawyers finds the situation extremely stressful; she experiences headaches
+                                and stomach upset, and has difficulty ________.</p>
+                            <label><input type="radio" name="q11" value="A"> A) working</label>
+                            <label><input type="radio" name="q11" value="B"> B) sleeping</label>
+                            <label><input type="radio" name="q11" value="C"> C) eating</label>
+                            <label><input type="radio" name="q11" value="D"> D) relaxing</label>
+                        </div>
+
+                        <div class="question">
+                            <p>12. An important influence on people's ability to ________ with stressful situations is
+                                the degree of control they feel.</p>
+                            <label><input type="radio" name="q12" value="A"> A) cope</label>
+                            <label><input type="radio" name="q12" value="B"> B) eliminate</label>
+                            <label><input type="radio" name="q12" value="C"> C) ignore</label>
+                            <label><input type="radio" name="q12" value="D"> D) increase</label>
+                        </div>
+
+                        <div class="question">
+                            <p>13. Sense of control can help ________ the negative consequences of stress, both
+                                psychological and physical.</p>
+                            <label><input type="radio" name="q13" value="A"> A) minimize</label>
+                            <label><input type="radio" name="q13" value="B"> B) maximize</label>
+                            <label><input type="radio" name="q13" value="C"> C) amplify</label>
+                            <label><input type="radio" name="q13" value="D"> D) disregard</label>
+                        </div>
+
+                        <div class="question">
+                            <p>14. Even when you cannot control them, unpleasant events tend to be less stressful if
+                                they are ________.</p>
+                            <label><input type="radio" name="q14" value="A"> A) predictable</label>
+                            <label><input type="radio" name="q14" value="B"> B) unexpected</label>
+                            <label><input type="radio" name="q14" value="C"> C) avoidable</label>
+                            <label><input type="radio" name="q14" value="D"> D) frequent</label>
+                        </div>
+
+                        <div class="question">
+                            <p>15. Less stress occurs if predictable events ________; this was demonstrated by Weiss in
+                                another study with rats.</p>
+                            <label><input type="radio" name="q15" value="A"> A) occur</label>
+                            <label><input type="radio" name="q15" value="B"> B) subside</label>
+                            <label><input type="radio" name="q15" value="C"> C) escalate</label>
+                            <label><input type="radio" name="q15" value="D"> D) vanish</label>
+                        </div>
+
+                        <div class="question">
+                            <p>16. Stress reactions can reduce the disease-fighting ________ of the body's immune
+                                system, increasing susceptibility to illnesses.</p>
+                            <label><input type="radio" name="q16" value="A"> A) effectiveness</label>
+                            <label><input type="radio" name="q16" value="B"> B) resistance</label>
+                            <label><input type="radio" name="q16" value="C"> C) vulnerability</label>
+                            <label><input type="radio" name="q16" value="D"> D) tolerance</label>
+                        </div>
+
+                        <div class="question">
+                            <p>17. Stress tends to be the ________ in stress-related illnesses such as stomach ulcers.
+                            </p>
+                            <label><input type="radio" name="q17" value="A"> A) culprit</label>
+                            <label><input type="radio" name="q17" value="B"> B) symptom</label>
+                            <label><input type="radio" name="q17" value="C"> C) remedy</label>
+                            <label><input type="radio" name="q17" value="D"> D) indicator</label>
+                        </div>
+
+                        <div class="question">
+                            <p>18. Stress leads to increased ________ of hydrochloric acid in the stomach.</p>
+                            <label><input type="radio" name="q18" value="A"> A) secretion</label>
+                            <label><input type="radio" name="q18" value="B"> B) reduction</label>
+                            <label><input type="radio" name="q18" value="C"> C) production</label>
+                            <label><input type="radio" name="q18" value="D"> D) absorption</label>
+                        </div>
+
+                        <div class="question">
+                            <p>19. Researchers are still trying to understand the biological mechanisms that ________
+                                the onset and development of cancer.</p>
+                            <label><input type="radio" name="q19" value="A"> A) underlie</label>
+                            <label><input type="radio" name="q19" value="B"> B) overcome</label>
+                            <label><input type="radio" name="q19" value="C"> C) trigger</label>
+                            <label><input type="radio" name="q19" value="D"> D) prevent</label>
+                        </div>
+
+                        <div class="question">
+                            <p>20. The field of research on psychological factors influencing immune function is called
+                                ________.</p>
+                            <label><input type="radio" name="q20" value="A"> A) psychoimmunology</label>
+                            <label><input type="radio" name="q20" value="B"> B) psychology</label>
+                            <label><input type="radio" name="q20" value="C"> C) immunology</label>
+                            <label><input type="radio" name="q20" value="D"> D) physiology</label>
+                        </div>
+
+                        <div class="question">
+                            <p>21. It is Friday evening and two young lawyers get phone calls at home. The trial date
+                                for an important case has been moved up. Both of the lawyers will now have to prepare a
+                                report for the case by Monday morning. It is a __________ situation for both.</p>
+                            <label><input type="radio" name="q21" value="A"> A) threatening</label>
+                            <label><input type="radio" name="q21" value="B"> B) relaxing</label>
+                            <label><input type="radio" name="q21" value="C"> C) predictable</label>
+                            <label><input type="radio" name="q21" value="D"> D) manageable</label>
+                        </div>
+
+                        <div class="question">
+                            <p>22. One of the lawyers finds the situation extremely _________; she feels tremendous
+                                anxiety.</p>
+                            <label><input type="radio" name="q22" value="A"> A) stressful</label>
+                            <label><input type="radio" name="q22" value="B"> B) exciting</label>
+                            <label><input type="radio" name="q22" value="C"> C) ordinary</label>
+                            <label><input type="radio" name="q22" value="D"> D) calming</label>
+                        </div>
+
+                        <div class="question">
+                            <p>23. Both animals and humans have been found to cope better with ________ or threatening
+                                stimuli when they feel they can exercise some degree of control.</p>
+                            <label><input type="radio" name="q23" value="A"> A) painful</label>
+                            <label><input type="radio" name="q23" value="B"> B) pleasant</label>
+                            <label><input type="radio" name="q23" value="C"> C) familiar</label>
+                            <label><input type="radio" name="q23" value="D"> D) unexpected</label>
+                        </div>
+
+                        <div class="question">
+                            <p>24. In one well-known experiment, one pair of rats was given a degree of control over the
+                                situation; it could reach through a hole in the cage and press a panel that would turn
+                                off the shock both for itself and for its partner. Thus, one was ________ and helped,
+                                and the other was in control.</p>
+                            <label><input type="radio" name="q24" value="A"> A) passive</label>
+                            <label><input type="radio" name="q24" value="B"> B) active</label>
+                            <label><input type="radio" name="q24" value="C"> C) aggressive</label>
+                            <label><input type="radio" name="q24" value="D"> D) resilient</label>
+                        </div>
+
+                        <div class="question">
+                            <p>25. In many stressful situations, the body's __________ can improve our performance – we
+                                become more energetic, more alert, and better able to take effective action.</p>
+                            <label><input type="radio" name="q25" value="A"> A) response</label>
+                            <label><input type="radio" name="q25" value="B"> B) demand</label>
+                            <label><input type="radio" name="q25" value="C"> C) pressure</label>
+                            <label><input type="radio" name="q25" value="D"> D) challenge</label>
+                        </div>
+
+                        <div class="question">
+                            <p>26. As we will be seen later in this unit, the body's reactions are more likely to be
+                                ________ than helpful to us when stress is encountered continually.</p>
+                            <label><input type="radio" name="q26" value="A"> A) harmful</label>
+                            <label><input type="radio" name="q26" value="B"> B) beneficial</label>
+                            <label><input type="radio" name="q26" value="C"> C) neutral</label>
+                            <label><input type="radio" name="q26" value="D"> D) effective</label>
+                        </div>
+
+                        <div class="question">
+                            <p>27. Stress reactions can reduce the disease-fighting ________ of the body's immune
+                                system, thereby increasing susceptibility to illnesses.</p>
+                            <label><input type="radio" name="q27" value="A"> A) effectiveness</label>
+                            <label><input type="radio" name="q27" value="B"> B) sensitivity</label>
+                            <label><input type="radio" name="q27" value="C"> C) reactivity</label>
+                            <label><input type="radio" name="q27" value="D"> D) intensity</label>
+                        </div>
+
+                        <div class="question">
+                            <p>28. Stress and stress reactions can cause the disease-fighting effectiveness of the
+                                body's immune system, thereby increasing __________ to illnesses, ranging from colds to
+                                cancer.</p>
+                            <label><input type="radio" name="q28" value="A"> A) susceptibility</label>
+                            <label><input type="radio" name="q28" value="B"> B) immunity</label>
+                            <label><input type="radio" name="q28" value="C"> C) resistance</label>
+                            <label><input type="radio" name="q28" value="D"> D) recovery</label>
+                        </div>
+
+                        <div class="question">
+                            <p>29. Ulcers are a common disorder among people who work in occupations that make heavy
+                                psychological ________, from assembly-line workers to air-traffic controllers.</p>
+                            <label><input type="radio" name="q29" value="A"> A) demands</label>
+                            <label><input type="radio" name="q29" value="B"> B) rewards</label>
+                            <label><input type="radio" name="q29" value="C"> C) expectations</label>
+                            <label><input type="radio" name="q29" value="D"> D) privileges</label>
+                        </div>
+
+                        <div class="question">
+                            <p>30. Medical scientists and researchers are still trying to understand the biological
+                                ________ of cell behavior that underlie the onset and development of cancer.</p>
+                            <label><input type="radio" name="q30" value="A"> A) mechanisms</label>
+                            <label><input type="radio" name="q30" value="B"> B) symptoms</label>
+                            <label><input type="radio" name="q30" value="C"> C) treatments</label>
+                            <label><input type="radio" name="q30" value="D"> D) origins</label>
+                        </div>
+
+                        <button type="button" class="submit-btn" onclick="calculateScore()">Submit Answers</button>
+                    </form>
+
+                    <div id="result"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-white">
+        <div class="container text-center">
+            <p>Designed with ❤️ by Chloe | © 2025 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        const encodedMcqAnswers = "QSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEEsQSxBLEE=";
+
+        // 计时器变量
+        let startTime;
+        let timerInterval;
+        let userNickname = "";
+        let elapsedTimeInSeconds = 0;
+
+        // 开始测试，隐藏模态框并开始计时
+        function startTest() {
+            const nicknameInput = document.getElementById('nickname');
+            if (!nicknameInput.value.trim()) {
+                alert('Please enter a nickname to proceed');
+                return;
+            }
+
+            userNickname = nicknameInput.value.trim();
+            document.getElementById('nicknameModal').style.display = 'none';
+            document.getElementById('timerDisplay').style.display = 'flex';
+
+            // 开始计时
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // 更新计时器显示
+        function updateTimer() {
+            const currentTime = new Date();
+            elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+
+            const minutes = Math.floor(elapsedTimeInSeconds / 60);
+            const seconds = elapsedTimeInSeconds % 60;
+
+            document.getElementById('timer').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // 格式化用时文本
+        function formatElapsedTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+
+            if (minutes === 0) {
+                return `${remainingSeconds} seconds`;
+            } else if (minutes === 1 && remainingSeconds === 0) {
+                return `1 minute`;
+            } else if (minutes === 1) {
+                return `1 minute and ${remainingSeconds} seconds`;
+            } else if (remainingSeconds === 0) {
+                return `${minutes} minutes`;
+            } else {
+                return `${minutes} minutes and ${remainingSeconds} seconds`;
+            }
+        }
+
+        function decodeAnswers(encoded) {
+            try {
+                return atob(encoded).split(',');
+            } catch (e) {
+                console.error('Validation Failed');
+                return [];
+            }
+        }
+
+        function calculateScore() {
+            // 停止计时器
+            clearInterval(timerInterval);
+
+            let score = 0;
+            let totalQuestions = 30;
+
+            try {
+                const mcqAnswers = decodeAnswers(encodedMcqAnswers);
+
+                // 计算选择题得分
+                for (let i = 0; i < totalQuestions; i++) {
+                    const selected = document.querySelector(`input[name="q${i + 1}"]:checked`);
+                    if (selected && selected.value === mcqAnswers[i]) {
+                        score++;
+                    }
+                }
+
+                // 显示结果
+                const resultDiv = document.getElementById('result');
+                const formattedTime = formatElapsedTime(elapsedTimeInSeconds);
+
+                resultDiv.innerHTML = `
+                    <h3>Test Results for ${userNickname}</h3>
+                    <p>Academic Vocabulary Score: ${score}/${totalQuestions}</p>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${score / totalQuestions * 100}%"></div></div>
+                    <p class="mt-3">Time taken: ${formattedTime}</p>
+                    <button onclick="window.location.href='quizzes.html'" class="return-btn">Return to Quiz List</button>
+                `;
+
+                resultDiv.classList.add('show');
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            } catch (e) {
+                alert('Submission failed, please try again');
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
