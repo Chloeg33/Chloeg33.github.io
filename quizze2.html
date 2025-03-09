@@ -6,12 +6,12 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Academic Vocabulary Quiz 01 | Chloe's Classroom Space Station</title>
+    <title>Academic Vocabulary Assessment 02 | Chloe's Classroom Space Station</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* 测验特定样式 */
+        /* Quiz specific styles */
         .question {
             margin: 20px 0;
             background-color: var(--apple-card);
@@ -188,7 +188,7 @@
             box-shadow: 0 6px 16px rgba(255, 107, 158, 0.4);
         }
 
-        /* 移动端优化 */
+        /* Mobile optimization */
         @media (max-width: 768px) {
             .question {
                 padding: 15px;
@@ -219,7 +219,7 @@
             }
         }
 
-        /* 昵称模态框样式 */
+        /* Nickname modal styles */
         .nickname-modal {
             position: fixed;
             top: 0;
@@ -275,7 +275,7 @@
             transform: translateY(-2px);
         }
 
-        /* 计时器样式 */
+        /* Timer styles */
         .timer-display {
             position: fixed;
             top: 80px;
@@ -320,7 +320,7 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="quizzes.html">Interactive Quizzes</a>
+                        <a class="nav-link" href="quizzes.html">Interactive Quizzes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="games.html">English Games</a>
@@ -330,17 +330,16 @@
         </div>
     </nav>
 
-    <!-- 昵称输入模态框 -->
+    <!-- Quiz Welcome & Nickname Entry -->
     <div id="nicknameModal" class="nickname-modal">
         <div class="nickname-modal-content">
-            <h3>Welcome to the Academic Vocabulary Quiz 01</h3>
-            <p>Please enter your nickname to start the test:</p>
-            <input type="text" id="nickname" placeholder="Your Nickname" required>
-            <button onclick="startTest()">Start Test</button>
+            <h3>Welcome to the Academic Vocabulary Assessment 02</h3>
+            <p>Please enter your name to commence the assessment:</p>
+            <input type="text" id="nickname" placeholder="Your Name" required>
+            <button onclick="startQuiz()">Begin Assessment</button>
         </div>
     </div>
 
-    <!-- 计时器显示 -->
     <div id="timerDisplay" class="timer-display" style="display:none;">
         <i class="fas fa-clock"></i> <span id="timer">00:00</span>
     </div>
@@ -348,309 +347,206 @@
     <!-- Main Content -->
     <header class="text-white text-center">
         <div class="container">
-            <h1>Academic Vocabulary Quiz 01</h1>
-            <p class="lead">Test your knowledge of academic English vocabulary</p>
+            <h1>Academic Vocabulary Assessment 02</h1>
+            <p class="lead">Evaluate your mastery of advanced academic terminology</p>
         </div>
     </header>
 
+    <!-- Quiz Form - DO NOT MODIFY QUESTION CONTENT -->
     <section>
         <div class="container">
-            <div class="card">
-                <div class="card-body">
-                    <form id="quizForm">
-                        <!-- 选择题部分 -->
-                        <h2 class="card-title">Academic Vocabulary Quiz 01 (30 points)</h2>
-                        <p class="mb-4">Choose the best word to complete each sentence.</p>
-
-                        <div class="question">
-                            <p>1. The term stress is ___________ to stimuli or events in our environment that make
-                                physical and emotional demands on us.</p>
-                            <label><input type="radio" name="q1" value="A"> A) adapted</label>
-                            <label><input type="radio" name="q1" value="B"> B) applied</label>
-                            <label><input type="radio" name="q1" value="C"> C) ignored</label>
-                            <label><input type="radio" name="q1" value="D"> D) resisted</label>
-                        </div>
-
-                        <div class="question">
-                            <p>2. Many sorts of events can be __________, including disasters, major life events, and
-                                daily hassles.</p>
-                            <label><input type="radio" name="q2" value="A"> A) reactions</label>
-                            <label><input type="radio" name="q2" value="B"> B) syndromes</label>
-                            <label><input type="radio" name="q2" value="C"> C) appraisals</label>
-                            <label><input type="radio" name="q2" value="D"> D) stressors</label>
-                        </div>
-
-                        <div class="question">
-                            <p>3. When stressors _________ with our accustomed way of life, we must deal with them.</p>
-                            <label><input type="radio" name="q3" value="A"> A) interfere</label>
-                            <label><input type="radio" name="q3" value="B"> B) contribute</label>
-                            <label><input type="radio" name="q3" value="C"> C) enhance</label>
-                            <label><input type="radio" name="q3" value="D"> D) support</label>
-                        </div>
-
-                        <div class="question">
-                            <p>4. How well we succeed in doing so will _________ how serious a toll stress will take on
-                                our well-being.</p>
-                            <label><input type="radio" name="q4" value="A"> A) exaggerate</label>
-                            <label><input type="radio" name="q4" value="B"> B) disregard</label>
-                            <label><input type="radio" name="q4" value="C"> C) determine</label>
-                            <label><input type="radio" name="q4" value="D"> D) minimize</label>
-                        </div>
-
-                        <div class="question">
-                            <p>5. Seyle proposed that humans react to any stressor in three stages, known as the general
-                                _________ syndrome.</p>
-                            <label><input type="radio" name="q5" value="A"> A) adaptation</label>
-                            <label><input type="radio" name="q5" value="B"> B) resistance</label>
-                            <label><input type="radio" name="q5" value="C"> C) exhaustion</label>
-                            <label><input type="radio" name="q5" value="D"> D) alarm</label>
-                        </div>
-
-                        <div class="question">
-                            <p>6. The first stage of the general adaptation syndrome is the __________ reaction, where
-                                the body becomes highly alert.</p>
-                            <label><input type="radio" name="q6" value="A"> A) resistance</label>
-                            <label><input type="radio" name="q6" value="B"> B) recovery</label>
-                            <label><input type="radio" name="q6" value="C"> C) alarm</label>
-                            <label><input type="radio" name="q6" value="D"> D) exhaustion</label>
-                        </div>
-
-                        <div class="question">
-                            <p>7. After the alarm reaction, the organism enters the stage of __________, trying to adapt
-                                to the stress.</p>
-                            <label><input type="radio" name="q7" value="A"> A) exhaustion</label>
-                            <label><input type="radio" name="q7" value="B"> B) resistance</label>
-                            <label><input type="radio" name="q7" value="C"> C) denial</label>
-                            <label><input type="radio" name="q7" value="D"> D) avoidance</label>
-                        </div>
-
-                        <div class="question">
-                            <p>8. If the organism cannot adapt, it enters a stage of __________, or collapse.</p>
-                            <label><input type="radio" name="q8" value="A"> A) equilibrium</label>
-                            <label><input type="radio" name="q8" value="B"> B) adaptation</label>
-                            <label><input type="radio" name="q8" value="C"> C) normalization</label>
-                            <label><input type="radio" name="q8" value="D"> D) exhaustion</label>
-                        </div>
-
-                        <div class="question">
-                            <p>9. Whether a particular ________ will be stressful depends on the person's subjective
-                                appraisal of that stimulus.</p>
-                            <label><input type="radio" name="q9" value="A"> A) stimulus</label>
-                            <label><input type="radio" name="q9" value="B"> B) response</label>
-                            <label><input type="radio" name="q9" value="C"> C) condition</label>
-                            <label><input type="radio" name="q9" value="D"> D) factor</label>
-                        </div>
-
-                        <div class="question">
-                            <p>10. The specific stress reaction is likely to ________ widely; some give rise to anger,
-                                and some to helplessness.</p>
-                            <label><input type="radio" name="q10" value="A"> A) stabilize</label>
-                            <label><input type="radio" name="q10" value="B"> B) vary</label>
-                            <label><input type="radio" name="q10" value="C"> C) converge</label>
-                            <label><input type="radio" name="q10" value="D"> D) diminish</label>
-                        </div>
-
-                        <div class="question">
-                            <p>11. One of the lawyers finds the situation extremely stressful; she experiences headaches
-                                and stomach upset, and has difficulty ________.</p>
-                            <label><input type="radio" name="q11" value="A"> A) eating</label>
-                            <label><input type="radio" name="q11" value="B"> B) relaxing</label>
-                            <label><input type="radio" name="q11" value="C"> C) sleeping</label>
-                            <label><input type="radio" name="q11" value="D"> D) working</label>
-                        </div>
-
-                        <div class="question">
-                            <p>12. An important influence on people's ability to ________ with stressful situations is
-                                the degree of control they feel.</p>
-                            <label><input type="radio" name="q12" value="A"> A) eliminate</label>
-                            <label><input type="radio" name="q12" value="B"> B) ignore</label>
-                            <label><input type="radio" name="q12" value="C"> C) increase</label>
-                            <label><input type="radio" name="q12" value="D"> D) cope</label>
-                        </div>
-
-                        <div class="question">
-                            <p>13. Sense of control can help ________ the negative consequences of stress, both
-                                psychological and physical.</p>
-                            <label><input type="radio" name="q13" value="A"> A) disregard</label>
-                            <label><input type="radio" name="q13" value="B"> B) minimize</label>
-                            <label><input type="radio" name="q13" value="C"> C) amplify</label>
-                            <label><input type="radio" name="q13" value="D"> D) maximize</label>
-                        </div>
-
-                        <div class="question">
-                            <p>14. Even when you cannot control them, unpleasant events tend to be less stressful if
-                                they are ________.</p>
-                            <label><input type="radio" name="q14" value="A"> A) predictable</label>
-                            <label><input type="radio" name="q14" value="B"> B) unexpected</label>
-                            <label><input type="radio" name="q14" value="C"> C) avoidable</label>
-                            <label><input type="radio" name="q14" value="D"> D) frequent</label>
-                        </div>
-
-                        <div class="question">
-                            <p>15. Less stress occurs if predictable events ________; this was demonstrated by Weiss in
-                                another study with rats.</p>
-                            <label><input type="radio" name="q15" value="A"> A) subside</label>
-                            <label><input type="radio" name="q15" value="B"> B) vanish</label>
-                            <label><input type="radio" name="q15" value="C"> C) occur</label>
-                            <label><input type="radio" name="q15" value="D"> D) escalate</label>
-                        </div>
-
-                        <div class="question">
-                            <p>16. Stress reactions can reduce the disease-fighting ________ of the body's immune
-                                system, increasing susceptibility to illnesses.</p>
-                            <label><input type="radio" name="q16" value="A"> A) resistance</label>
-                            <label><input type="radio" name="q16" value="B"> B) vulnerability</label>
-                            <label><input type="radio" name="q16" value="C"> C) tolerance</label>
-                            <label><input type="radio" name="q16" value="D"> D) effectiveness</label>
-                        </div>
-
-                        <div class="question">
-                            <p>17. Stress tends to be the ________ in stress-related illnesses such as stomach ulcers.
-                            </p>
-                            <label><input type="radio" name="q17" value="A"> A) culprit</label>
-                            <label><input type="radio" name="q17" value="B"> B) symptom</label>
-                            <label><input type="radio" name="q17" value="C"> C) remedy</label>
-                            <label><input type="radio" name="q17" value="D"> D) indicator</label>
-                        </div>
-
-                        <div class="question">
-                            <p>18. Stress leads to increased ________ of hydrochloric acid in the stomach.</p>
-                            <label><input type="radio" name="q18" value="A"> A) reduction</label>
-                            <label><input type="radio" name="q18" value="B"> B) secretion</label>
-                            <label><input type="radio" name="q18" value="C"> C) absorption</label>
-                            <label><input type="radio" name="q18" value="D"> D) production</label>
-                        </div>
-
-                        <div class="question">
-                            <p>19. Researchers are still trying to understand the biological mechanisms that ________
-                                the onset and development of cancer.</p>
-                            <label><input type="radio" name="q19" value="A"> A) overcome</label>
-                            <label><input type="radio" name="q19" value="B"> B) prevent</label>
-                            <label><input type="radio" name="q19" value="C"> C) trigger</label>
-                            <label><input type="radio" name="q19" value="D"> D) underlie</label>
-                        </div>
-
-                        <div class="question">
-                            <p>20. The field of research on psychological factors influencing immune function is called
-                                ________.</p>
-                            <label><input type="radio" name="q20" value="A"> A) psychology</label>
-                            <label><input type="radio" name="q20" value="B"> B) immunology</label>
-                            <label><input type="radio" name="q20" value="C"> C) psychoimmunology</label>
-                            <label><input type="radio" name="q20" value="D"> D) physiology</label>
-                        </div>
-
-                        <div class="question">
-                            <p>21. It is Friday evening and two young lawyers get phone calls at home. The trial date
-                                for an important case has been moved up. Both of the lawyers will now have to prepare a
-                                report for the case by Monday morning. It is a __________ situation for both.</p>
-                            <label><input type="radio" name="q21" value="A"> A) threatening</label>
-                            <label><input type="radio" name="q21" value="B"> B) relaxing</label>
-                            <label><input type="radio" name="q21" value="C"> C) predictable</label>
-                            <label><input type="radio" name="q21" value="D"> D) manageable</label>
-                        </div>
-
-                        <div class="question">
-                            <p>22. One of the lawyers finds the situation extremely _________; she feels tremendous
-                                anxiety.</p>
-                            <label><input type="radio" name="q22" value="A"> A) exciting</label>
-                            <label><input type="radio" name="q22" value="B"> B) ordinary</label>
-                            <label><input type="radio" name="q22" value="C"> C) stressful</label>
-                            <label><input type="radio" name="q22" value="D"> D) calming</label>
-                        </div>
-
-                        <div class="question">
-                            <p>23. Both animals and humans have been found to cope better with ________ or threatening
-                                stimuli when they feel they can exercise some degree of control.</p>
-                            <label><input type="radio" name="q23" value="A"> A) pleasant</label>
-                            <label><input type="radio" name="q23" value="B"> B) familiar</label>
-                            <label><input type="radio" name="q23" value="C"> C) unexpected</label>
-                            <label><input type="radio" name="q23" value="D"> D) painful</label>
-                        </div>
-
-                        <div class="question">
-                            <p>24. In one well-known experiment, one pair of rats was given a degree of control over the
-                                situation; it could reach through a hole in the cage and press a panel that would turn
-                                off the shock both for itself and for its partner. Thus, one was ________ and helped,
-                                and the other was in control.</p>
-                            <label><input type="radio" name="q24" value="A"> A) active</label>
-                            <label><input type="radio" name="q24" value="B"> B) aggressive</label>
-                            <label><input type="radio" name="q24" value="C"> C) resilient</label>
-                            <label><input type="radio" name="q24" value="D"> D) passive</label>
-                        </div>
-
-                        <div class="question">
-                            <p>25. In many stressful situations, the body's __________ can improve our performance – we
-                                become more energetic, more alert, and better able to take effective action.</p>
-                            <label><input type="radio" name="q25" value="A"> A) response</label>
-                            <label><input type="radio" name="q25" value="B"> B) demand</label>
-                            <label><input type="radio" name="q25" value="C"> C) pressure</label>
-                            <label><input type="radio" name="q25" value="D"> D) challenge</label>
-                        </div>
-
-                        <div class="question">
-                            <p>26. As we will be seen later in this unit, the body's reactions are more likely to be
-                                ________ than helpful to us when stress is encountered continually.</p>
-                            <label><input type="radio" name="q26" value="A"> A) neutral</label>
-                            <label><input type="radio" name="q26" value="B"> B) harmful</label>
-                            <label><input type="radio" name="q26" value="C"> C) effective</label>
-                            <label><input type="radio" name="q26" value="D"> D) beneficial</label>
-                        </div>
-
-                        <div class="question">
-                            <p>27. Stress reactions can reduce the disease-fighting ________ of the body's immune
-                                system, thereby increasing susceptibility to illnesses.</p>
-                            <label><input type="radio" name="q27" value="A"> A) sensitivity</label>
-                            <label><input type="radio" name="q27" value="B"> B) reactivity</label>
-                            <label><input type="radio" name="q27" value="C"> C) intensity</label>
-                            <label><input type="radio" name="q27" value="D"> D) effectiveness</label>
-                        </div>
-
-                        <div class="question">
-                            <p>28. Stress and stress reactions can cause the disease-fighting effectiveness of the
-                                body's immune system, thereby increasing __________ to illnesses, ranging from colds to
-                                cancer.</p>
-                            <label><input type="radio" name="q28" value="A"> A) immunity</label>
-                            <label><input type="radio" name="q28" value="B"> B) resistance</label>
-                            <label><input type="radio" name="q28" value="C"> C) susceptibility</label>
-                            <label><input type="radio" name="q28" value="D"> D) recovery</label>
-                        </div>
-
-                        <div class="question">
-                            <p>29. Ulcers are a common disorder among people who work in occupations that make heavy
-                                psychological ________, from assembly-line workers to air-traffic controllers.</p>
-                            <label><input type="radio" name="q29" value="A"> A) rewards</label>
-                            <label><input type="radio" name="q29" value="B"> B) demands</label>
-                            <label><input type="radio" name="q29" value="C"> C) expectations</label>
-                            <label><input type="radio" name="q29" value="D"> D) privileges</label>
-                        </div>
-
-                        <div class="question">
-                            <p>30. Medical scientists and researchers are still trying to understand the biological
-                                ________ of cell behavior that underlie the onset and development of cancer.</p>
-                            <label><input type="radio" name="q30" value="A"> A) symptoms</label>
-                            <label><input type="radio" name="q30" value="B"> B) treatments</label>
-                            <label><input type="radio" name="q30" value="C"> C) origins</label>
-                            <label><input type="radio" name="q30" value="D"> D) mechanisms</label>
-                        </div>
-
-                        <button type="button" class="submit-btn" onclick="calculateScore()">Submit Answers</button>
-                    </form>
-
-                    <div id="result"></div>
+            <form id="quizForm">
+                <div class="quiz-header">
+                    <h2 class="card-title">Academic Vocabulary Assessment 02 (20 points)</h2>
+                    <p class="card-subtitle">Specialized terminology for academic proficiency</p>
                 </div>
-            </div>
+
+                <div class="question">
+                    <p>1. The term stress is ___________ to stimuli or events in our environment that make
+                        physical and emotional demands on us.</p>
+                    <label><input type="radio" name="q1" value="A"> A) adapted</label>
+                    <label><input type="radio" name="q1" value="B"> B) applied</label>
+                    <label><input type="radio" name="q1" value="C"> C) ignored</label>
+                    <label><input type="radio" name="q1" value="D"> D) resisted</label>
+                </div>
+
+                <div class="question">
+                    <p>2. Many sorts of events can be __________, including disasters, major life events, and
+                        daily hassles.</p>
+                    <label><input type="radio" name="q2" value="A"> A) reactions</label>
+                    <label><input type="radio" name="q2" value="B"> B) syndromes</label>
+                    <label><input type="radio" name="q2" value="C"> C) appraisals</label>
+                    <label><input type="radio" name="q2" value="D"> D) stressors</label>
+                </div>
+
+                <div class="question">
+                    <p>3. When stressors _________ with our accustomed way of life, we must deal with them.</p>
+                    <label><input type="radio" name="q3" value="A"> A) interfere</label>
+                    <label><input type="radio" name="q3" value="B"> B) contribute</label>
+                    <label><input type="radio" name="q3" value="C"> C) enhance</label>
+                    <label><input type="radio" name="q3" value="D"> D) support</label>
+                </div>
+
+                <div class="question">
+                    <p>4. How well we succeed in doing so will _________ how serious a toll stress will take on
+                        our well-being.</p>
+                    <label><input type="radio" name="q4" value="A"> A) exaggerate</label>
+                    <label><input type="radio" name="q4" value="B"> B) disregard</label>
+                    <label><input type="radio" name="q4" value="C"> C) determine</label>
+                    <label><input type="radio" name="q4" value="D"> D) minimize</label>
+                </div>
+
+                <div class="question">
+                    <p>5. Seyle proposed that humans react to any stressor in three stages, known as the general
+                        _________ syndrome.</p>
+                    <label><input type="radio" name="q5" value="A"> A) adaptation</label>
+                    <label><input type="radio" name="q5" value="B"> B) resistance</label>
+                    <label><input type="radio" name="q5" value="C"> C) exhaustion</label>
+                    <label><input type="radio" name="q5" value="D"> D) alarm</label>
+                </div>
+
+                <div class="question">
+                    <p>6. The first stage of the general adaptation syndrome is the __________ reaction, where
+                        the body becomes highly alert.</p>
+                    <label><input type="radio" name="q6" value="A"> A) resistance</label>
+                    <label><input type="radio" name="q6" value="B"> B) recovery</label>
+                    <label><input type="radio" name="q6" value="C"> C) alarm</label>
+                    <label><input type="radio" name="q6" value="D"> D) exhaustion</label>
+                </div>
+
+                <div class="question">
+                    <p>7. After the alarm reaction, the organism enters the stage of __________, trying to adapt
+                        to the stress.</p>
+                    <label><input type="radio" name="q7" value="A"> A) exhaustion</label>
+                    <label><input type="radio" name="q7" value="B"> B) resistance</label>
+                    <label><input type="radio" name="q7" value="C"> C) deny</label>
+                    <label><input type="radio" name="q7" value="D"> D) avoid</label>
+                </div>
+
+                <div class="question">
+                    <p>8. If the organism cannot adapt, it enters a stage of __________, or collapse.</p>
+                    <label><input type="radio" name="q8" value="A"> A) equilibrium</label>
+                    <label><input type="radio" name="q8" value="B"> B) adaptation</label>
+                    <label><input type="radio" name="q8" value="C"> C) normalization</label>
+                    <label><input type="radio" name="q8" value="D"> D) exhaustion</label>
+                </div>
+
+                <div class="question">
+                    <p>9. The specific stress reaction is likely to ________ widely; some give rise to anger,
+                        and some to helplessness.</p>
+                    <label><input type="radio" name="q9" value="A"> A) stabilize</label>
+                    <label><input type="radio" name="q9" value="B"> B) vary</label>
+                    <label><input type="radio" name="q9" value="C"> C) converge</label>
+                    <label><input type="radio" name="q9" value="D"> D) diminish</label>
+                </div>
+
+                <div class="question">
+                    <p>10. An important influence on people's ability to ________ with stressful situations is
+                        the degree of control they feel.</p>
+                    <label><input type="radio" name="q10" value="A"> A) eliminate</label>
+                    <label><input type="radio" name="q10" value="B"> B) ignore</label>
+                    <label><input type="radio" name="q10" value="C"> C) increase</label>
+                    <label><input type="radio" name="q10" value="D"> D) cope</label>
+                </div>
+
+                <div class="question">
+                    <p>11. Sense of control can help ________ the negative consequences of stress, both
+                        psychological and physical.</p>
+                    <label><input type="radio" name="q11" value="A"> A) disregard</label>
+                    <label><input type="radio" name="q11" value="B"> B) minimize</label>
+                    <label><input type="radio" name="q11" value="C"> C) amplify</label>
+                    <label><input type="radio" name="q11" value="D"> D) maximize</label>
+                </div>
+
+                <div class="question">
+                    <p>12. Even when you cannot control them, unpleasant events tend to be less stressful if
+                        they are ________.</p>
+                    <label><input type="radio" name="q12" value="A"> A) predictable</label>
+                    <label><input type="radio" name="q12" value="B"> B) unexpected</label>
+                    <label><input type="radio" name="q12" value="C"> C) avoidable</label>
+                    <label><input type="radio" name="q12" value="D"> D) frequent</label>
+                </div>
+
+                <div class="question">
+                    <p>13. Less stress occurs if predictable events ________; this was demonstrated by Weiss in
+                        another study with rats.</p>
+                    <label><input type="radio" name="q13" value="A"> A) subside</label>
+                    <label><input type="radio" name="q13" value="B"> B) vanish</label>
+                    <label><input type="radio" name="q13" value="C"> C) occur</label>
+                    <label><input type="radio" name="q13" value="D"> D) escalate</label>
+                </div>
+
+                <div class="question">
+                    <p>14. Stress reactions can reduce the disease-fighting ________ of the body's immune
+                        system, increasing susceptibility to illnesses.</p>
+                    <label><input type="radio" name="q14" value="A"> A) resistance</label>
+                    <label><input type="radio" name="q14" value="B"> B) vulnerability</label>
+                    <label><input type="radio" name="q14" value="C"> C) tolerance</label>
+                    <label><input type="radio" name="q14" value="D"> D) effectiveness</label>
+                </div>
+
+                <div class="question">
+                    <p>15. Stress tends to be the ________ in stress-related illnesses such as stomach ulcers.
+                    </p>
+                    <label><input type="radio" name="q15" value="A"> A) culprit</label>
+                    <label><input type="radio" name="q15" value="B"> B) symptom</label>
+                    <label><input type="radio" name="q15" value="C"> C) remedy</label>
+                    <label><input type="radio" name="q15" value="D"> D) indicator</label>
+                </div>
+
+                <div class="question">
+                    <p>16. Stress leads to increased ________ of hydrochloric acid in the stomach.</p>
+                    <label><input type="radio" name="q16" value="A"> A) reduction</label>
+                    <label><input type="radio" name="q16" value="B"> B) secretion</label>
+                    <label><input type="radio" name="q16" value="C"> C) absorption</label>
+                    <label><input type="radio" name="q16" value="D"> D) production</label>
+                </div>
+
+                <div class="question">
+                    <p>17. Stress and stress reactions can cause the disease-fighting effectiveness of the body's immune
+                        system, thereby increasing __________ to illnesses, ranging from colds to cancer.</p>
+                    <label><input type="radio" name="q17" value="A"> A) immunity</label>
+                    <label><input type="radio" name="q17" value="B"> B) resistance</label>
+                    <label><input type="radio" name="q17" value="C"> C) susceptibility</label>
+                    <label><input type="radio" name="q17" value="D"> D) recovery</label>
+                </div>
+
+                <div class="question">
+                    <p>18. The field of research on psychological factors influencing immune function is called
+                        ________.</p>
+                    <label><input type="radio" name="q18" value="A"> A) psychology</label>
+                    <label><input type="radio" name="q18" value="B"> B) immunology</label>
+                    <label><input type="radio" name="q18" value="C"> C) psychoimmunology</label>
+                    <label><input type="radio" name="q18" value="D"> D) physiology</label>
+                </div>
+
+                <div class="question">
+                    <p>19. Ulcers are a common disorder among people who work in occupations that make heavy
+                        psychological ________, from assembly-line workers to air-traffic controllers.</p>
+                    <label><input type="radio" name="q19" value="A"> A) rewards</label>
+                    <label><input type="radio" name="q19" value="B"> B) demands</label>
+                    <label><input type="radio" name="q19" value="C"> C) expectations</label>
+                    <label><input type="radio" name="q19" value="D"> D) privileges</label>
+                </div>
+
+                <div class="question">
+                    <p>20. Medical scientists and researchers are still trying to understand the biological
+                        ________ of cell behavior that underlie the onset and development of cancer.</p>
+                    <label><input type="radio" name="q20" value="A"> A) symptoms</label>
+                    <label><input type="radio" name="q20" value="B"> B) treatments</label>
+                    <label><input type="radio" name="q20" value="C"> C) origins</label>
+                    <label><input type="radio" name="q20" value="D"> D) mechanisms</label>
+                </div>
+
+                <button type="button" class="submit-btn" onclick="calculateScore()">Submit Assessment</button>
+            </form>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-4 text-white">
-        <div class="container text-center">
-            <p>Designed with ❤️ by Chloe | © 2025 All Rights Reserved</p>
-        </div>
-    </footer>
+    <div id="result"></div>
 
     <script>
-        const encodedMcqAnswers = "QixELEEsQyxBLEMsQixELEEsQixDLEQsQixBLEMsRCxBLEIsRCxDLEEsQyxCLEQsQSxCLEQsQyxCLEE=";
+        const encodedMcqAnswers = "QixELEEsQyxBLEMsQixELEIsRCxCLEEsQyxELEEsQixDLEMsQixE";
 
         // 计时器变量
         let startTime;
@@ -659,7 +555,7 @@
         let elapsedTimeInSeconds = 0;
 
         // 开始测试，隐藏模态框并开始计时
-        function startTest() {
+        function startQuiz() {
             const nicknameInput = document.getElementById('nickname');
             if (!nicknameInput.value.trim()) {
                 alert('Please enter a nickname to proceed');
@@ -719,7 +615,7 @@
             clearInterval(timerInterval);
 
             let score = 0;
-            let totalQuestions = 30;
+            let totalQuestions = 20;
 
             try {
                 const mcqAnswers = decodeAnswers(encodedMcqAnswers);
@@ -737,11 +633,11 @@
                 const formattedTime = formatElapsedTime(elapsedTimeInSeconds);
 
                 resultDiv.innerHTML = `
-                    <h3>Test Results for ${userNickname}</h3>
-                    <p>Academic Vocabulary Score: ${score}/${totalQuestions}</p>
+                    <h3>Assessment Results for ${userNickname}</h3>
+                    <p>You scored ${score} out of 20 (${Math.round(score / totalQuestions * 100)}%).</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${score / totalQuestions * 100}%"></div></div>
                     <p class="mt-3">Time taken: ${formattedTime}</p>
-                    <button onclick="window.location.href='quizzes.html'" class="return-btn">Return to Quiz List</button>
+                    <button onclick="window.location.href='quizzes.html'" class="return-btn">Return to Assessments</button>
                 `;
 
                 resultDiv.classList.add('show');
