@@ -771,11 +771,11 @@
 
                 resultDiv.innerHTML = `
                     <h3>Assessment Results for ${userNickname}</h3>
-                    <p>Multiple Choice Score: ${mcqScore}/20</p>
+                    <p>Multiple Choice Score: ${mcqScore}/20 (${Math.round(mcqScore / 20 * 100)}%)</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${mcqScore * 5}%"></div></div>
-                    <p>Sentence Completion Score: ${fillScore}/10</p>
+                    <p>Sentence Completion Score: ${fillScore}/10 (${Math.round(fillScore / 10 * 100)}%)</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${fillScore * 10}%"></div></div>
-                    <p>Total Score: ${score}/30</p>
+                    <p>Total Score: ${score}/30 (${Math.round(score / 30 * 100)}%)</p>
                     <div class="progress-bar"><div class="progress-fill" style="width:${score / 30 * 100}%"></div></div>
                     <p class="mt-3">Time taken: ${formattedTime}</p>
                     <button onclick="window.location.href='quizzes.html'" class="return-btn">Return to Assessments</button>
