@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Disease Knowledge Matching Game - Chloe's Class</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #gameContainer {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+        }
+
+        .column {
+            width: 48%;
+            min-height: 600px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 8px;
+            overflow-y: auto;
+        }
+
+        .card-game {
+            width: 100%;
+            height: auto;
+            min-height: 60px;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+        }
+
+        .card-game:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-game:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .disease {
+            background: linear-gradient(135deg, var(--light-pink), var(--main-pink));
+            color: white;
+            font-weight: 500;
+        }
+
+        .description {
+            background: linear-gradient(135deg, var(--light-purple), var(--main-purple));
+            color: white;
+        }
+
+        .selected {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
+            z-index: 10;
+        }
+
+        .selected-disease {
+            font-weight: bold;
+        }
+
+        .match-success {
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.9);
+            border: 3px solid rgba(76, 175, 80, 0.9);
+            z-index: 10;
+        }
+
+        .match-fail {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            border: 3px solid rgba(255, 0, 0, 0.7);
+            z-index: 10;
+        }
+
+        .matched {
+            animation: matchSuccess 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        @keyframes matchSuccess {
+            0% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+                box-shadow: 0 0 30px rgba(76, 175, 80, 0.7);
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* 添加淡入动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 添加卡片匹配消失后的空间调整动画 */
+        @keyframes adjustSpace {
+            from {
+                max-height: var(--card-height);
+                margin-bottom: 15px;
+                opacity: 0.5;
+            }
+
+            to {
+                max-height: 0;
+                margin-bottom: 0;
+                padding: 0;
+                opacity: 0;
+            }
+        }
+
+        /* 模态弹窗样式 */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1040;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-backdrop.show {
+            opacity: 1;
+            display: block;
+        }
+
+        .game-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: white;
+            border-radius: var(--apple-radius);
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1050;
+            max-width: 90%;
+            width: 450px;
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .game-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            display: block;
+        }
+
+        .game-modal h3 {
+            background: linear-gradient(135deg, var(--main-pink), var(--main-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .game-modal .btn-confirm {
+            background: linear-gradient(135deg, var(--main-pink), var(--main-purple));
+            border: none;
+            padding: 10px 30px;
+            color: white;
+            font-weight: 500;
+            border-radius: var(--apple-radius-sm);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .game-modal .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(147, 112, 219, 0.4);
+        }
+
+        .shake {
+            animation: shakeAnimation 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+            transform-origin: center center;
+        }
+
+        @keyframes shakeAnimation {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* 计时器样式 */
+        .timer-display {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: var(--apple-radius);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .timer-display i {
+            margin-right: 6px;
+            color: var(--main-pink);
+        }
+
+        @media (max-width: 768px) {
+            #gameContainer {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .column {
+                width: 100%;
+                min-height: 400px;
+                padding: 15px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-game {
+                width: 100%;
+                min-height: 50px;
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            .timer-display {
+                top: 70px;
+                right: 10px;
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+        }
+
+        #controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #game-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--main-pink);
+            margin: 15px 0;
+        }
+
+        #game-buttons .btn {
+            transition: all 0.2s ease;
+        }
+
+        #game-buttons .btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 游戏结束模态弹窗 -->
+    <div class="modal-backdrop" id="gameEndBackdrop"></div>
+    <div class="game-modal" id="gameEndModal">
+        <h3>Game Over</h3>
+        <p class="lead">Matched Pairs: <strong id="matchedPairsCount">0/0</strong></p>
+        <p class="lead">Game Time: <strong id="gameTime">0</strong> seconds</p>
+        <button class="btn btn-confirm" id="confirmEndGame">Confirm</button>
+    </div>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Chloe's Class</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="quizzes.html">Quizzes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="games.html">English Games</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 添加新的计时器 -->
+    <div id="timerDisplay" class="timer-display" style="display:none;">
+        <i class="fas fa-clock"></i> <span id="timerClock">00:00</span>
+    </div>
+
+    <!-- Main Content -->
+    <header class="text-white text-center">
+        <div class="container">
+            <h1>Disease Knowledge Matching Game</h1>
+            <p class="lead">Match disease names with their descriptions to test your knowledge</p>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-8 text-center">
+                    <div id="controls">
+                        <div id="game-buttons">
+                            <button class="btn btn-primary" onclick="startGame()">Start Game</button>
+                            <button class="btn btn-secondary" onclick="shuffleGame()">Shuffle</button>
+                            <button class="btn btn-danger" onclick="endGame()">End Game</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameContainer">
+                <div id="diseases" class="column"></div>
+                <div id="descriptions" class="column"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 text-white">
+        <div class="container text-center">
+            <p>Designed with ❤️ by Chloe | © 2025 All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let selectedDisease = null;
+        let selectedDescription = null;
+        let startTime = null;
+        let timerInterval = null;
+        let matchedPairs = 0; // 跟踪已匹配的卡片对数
+        let elapsedTimeInSeconds = 0; // 记录游戏时长
+        let isAnimating = false; // 是否正在播放配对动画，用于锁定用户操作
+        const diseases = [
+            { name: "Arthritis", desc: "When the immune system mistakenly attacks joints, causing pain and swelling." },
+            { name: "Cardiovascular Diseases", desc: "High blood pressure, heart attacks, strokes." },
+            { name: "Endocrine Disorders", desc: "Stress affects blood sugar levels, making diabetes harder to manage." },
+            { name: "Respiratory Disorders", desc: "Breathing problems. Stress can cause attacks or worsen symptoms." },
+            { name: "Mental Health Disorders", desc: "Including depression, anxiety disorders, and post-traumatic stress disorder (PTSD)." },
+            { name: "Dermatological Conditions", desc: "Skin issues. Stress can lead to or worsen conditions like eczema, psoriasis, and acne." },
+            { name: "Neurological Conditions", desc: "Tension headaches, migraines, and insomnia can be triggered or worsened by stress." },
+            { name: "Thyroid Disorders", desc: "Thyroid gland issues affecting metabolism. Stress impacts hormone levels." },
+            { name: "Chronic Fatigue Syndrome (CFS)", desc: "Extreme tiredness not helped by rest. Stress makes it worse." },
+            { name: "Immune System Disorders", desc: "Stress makes you more prone to infections." },
+            { name: "Eating Disorders", desc: "Stress triggers unhealthy eating behaviors." },
+            { name: "Substance Abuse Disorders", desc: "Using drugs or alcohol to cope with stress." },
+            { name: "Memory Impairments", desc: "Chronic stress can affect cognitive functions, leading to difficulties with memory and concentration." },
+            { name: "Periodontal Disease", desc: "Stress can exacerbate conditions affecting the gums and structures supporting the teeth." }
+        ];
+
+        function createGame() {
+            // Clear containers
+            document.getElementById('diseases').innerHTML = '';
+            document.getElementById('descriptions').innerHTML = '';
+
+            // 创建疾病和描述的数组副本
+            const diseasesArray = [...diseases];
+            const descriptionsArray = [...diseases];
+
+            // 打乱两个数组顺序
+            diseasesArray.sort(() => Math.random() - 0.5);
+            descriptionsArray.sort(() => Math.random() - 0.5);
+
+            // 设置CSS变量用于卡片高度
+            document.documentElement.style.setProperty('--card-height', 'auto');
+
+            // 设置列数
+            const columnsPerRow = 2; // 每行2列，每边总共显示为4列
+
+            // 创建疾病卡片（左列）
+            diseasesArray.forEach((item, index) => {
+                const diseaseCard = document.createElement('div');
+                diseaseCard.className = 'card-game disease';
+                diseaseCard.textContent = item.name;
+                diseaseCard.dataset.id = diseases.findIndex(d => d.name === item.name); // 找到原数组中的索引
+                diseaseCard.onclick = () => selectCard(diseaseCard, 'disease');
+                document.getElementById('diseases').appendChild(diseaseCard);
+            });
+
+            // 创建描述卡片（右列）- 使用单独打乱的数组
+            descriptionsArray.forEach((item, index) => {
+                const descCard = document.createElement('div');
+                descCard.className = 'card-game description';
+                descCard.textContent = item.desc;
+                descCard.dataset.id = diseases.findIndex(d => d.desc === item.desc); // 找到原数组中的索引
+                descCard.onclick = () => selectCard(descCard, 'description');
+                document.getElementById('descriptions').appendChild(descCard);
+            });
+
+            // 优化卡片高度调整的实现方式
+            requestAnimationFrame(() => {
+                const allCards = document.querySelectorAll('.card-game');
+                let maxHeight = 0;
+
+                // 获取最大高度
+                allCards.forEach(card => {
+                    const height = card.offsetHeight;
+                    if (height > maxHeight) maxHeight = height;
+                });
+
+                // 设置CSS变量并应用最大高度
+                document.documentElement.style.setProperty('--card-height', `${maxHeight}px`);
+                allCards.forEach(card => {
+                    card.style.minHeight = `${maxHeight}px`;
+                });
+            });
+        }
+
+        function selectCard(card, type) {
+            if (!startTime || isAnimating) return; // 如果计时未开始或正在动画中，不允许点击
+
+            // 清除所有卡片上可能残留的失败样式
+            document.querySelectorAll('.match-fail').forEach(el => {
+                el.classList.remove('match-fail', 'shake');
+            });
+
+            // 清除可能残留的成功样式，但不清除正在进行消失动画的卡片
+            document.querySelectorAll('.match-success:not(.matched)').forEach(el => {
+                el.classList.remove('match-success');
+            });
+
+            // 如果在同一边选择了新的卡片，取消之前的选择（解决问题3）
+            if (type === 'disease' && selectedDisease) {
+                selectedDisease.classList.remove('selected', 'selected-disease');
+                selectedDisease = null;
+            } else if (type === 'description' && selectedDescription) {
+                selectedDescription.classList.remove('selected');
+                selectedDescription = null;
+            }
+
+            card.classList.add('selected');
+            if (type === 'disease') {
+                card.classList.add('selected-disease');
+                selectedDisease = card;
+            } else {
+                selectedDescription = card;
+            }
+
+            if (selectedDisease && selectedDescription) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            if (selectedDisease.dataset.id === selectedDescription.dataset.id) {
+                // 设置动画锁定状态
+                isAnimating = true;
+
+                // 匹配成功 - 添加成功动画类
+                selectedDisease.classList.add('match-success');
+                selectedDescription.classList.add('match-success');
+
+                // 使用单一的setTimeout，减少嵌套
+                setTimeout(() => {
+                    selectedDisease.classList.add('matched');
+                    selectedDescription.classList.add('matched');
+
+                    // 添加动画结束后的事件监听器，显式设置visibility为hidden
+                    const handleAnimationEnd = () => {
+                        // 显式设置visibility为hidden，确保能被checkCompletion正确检测
+                        selectedDisease.style.visibility = 'hidden';
+                        selectedDescription.style.visibility = 'hidden';
+                        selectedDisease.removeEventListener('animationend', handleAnimationEnd);
+
+                        // 检查游戏是否完成
+                        checkCompletion();
+
+                        // 解除动画锁定状态
+                        isAnimating = false;
+                    };
+
+                    selectedDisease.addEventListener('animationend', handleAnimationEnd);
+
+                    // 增加匹配对数计数
+                    matchedPairs++;
+
+                    // 重置选择状态变量
+                    selectedDisease = null;
+                    selectedDescription = null;
+
+                    // 安全超时：确保即使动画事件没有触发，游戏也能在1.5秒后解除锁定
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 1500);
+
+                    // 检查游戏是否完成 - 由于添加了animationend事件，在这里不再调用
+                    // checkCompletion();
+                }, 500);
+            } else {
+                // 设置动画锁定状态
+                isAnimating = true;
+
+                // 匹配失败 - 显示红框高亮，然后震动
+                selectedDisease.classList.add('match-fail');
+                selectedDescription.classList.add('match-fail');
+
+                // 使用单一的setTimeout，减少嵌套
+                setTimeout(() => {
+                    selectedDisease.classList.add('shake');
+                    selectedDescription.classList.add('shake');
+
+                    // 使用animationend事件监听器替代第二个setTimeout
+                    const handleAnimationEnd = () => {
+                        selectedDisease.classList.remove('selected', 'selected-disease', 'shake', 'match-fail');
+                        selectedDescription.classList.remove('selected', 'shake', 'match-fail');
+                        selectedDisease.removeEventListener('animationend', handleAnimationEnd);
+                        selectedDisease = null;
+                        selectedDescription = null;
+
+                        // 解除动画锁定状态
+                        isAnimating = false;
+                    };
+
+                    selectedDisease.addEventListener('animationend', handleAnimationEnd);
+
+                    // 安全超时：确保即使动画事件没有触发，游戏也能在1.5秒后解除锁定
+                    setTimeout(() => {
+                        isAnimating = false;
+                    }, 1500);
+                }, 500);
+            }
+        }
+
+        function updateTimer() {
+            const currentTime = new Date();
+            elapsedTimeInSeconds = Math.floor((currentTime - startTime) / 1000);
+
+            const minutes = Math.floor(elapsedTimeInSeconds / 60);
+            const seconds = elapsedTimeInSeconds % 60;
+
+            document.getElementById('timerClock').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // 格式化用时文本为更友好的形式
+        function formatElapsedTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+
+            if (minutes === 0) {
+                return `${remainingSeconds} seconds`;
+            } else if (minutes === 1 && remainingSeconds === 0) {
+                return `1 minute`;
+            } else if (minutes === 1) {
+                return `1 minute and ${remainingSeconds} seconds`;
+            } else if (remainingSeconds === 0) {
+                return `${minutes} minutes`;
+            } else {
+                return `${minutes} minutes and ${remainingSeconds} seconds`;
+            }
+        }
+
+        function checkCompletion() {
+            const remaining = document.querySelectorAll('.card-game:not([style*="visibility: hidden"])');
+            if (remaining.length === 0) {
+                clearInterval(timerInterval);
+                const formattedTime = formatElapsedTime(elapsedTimeInSeconds);
+
+                // 创建游戏完成的反馈元素
+                const completionMessage = document.createElement('div');
+                completionMessage.className = 'alert alert-success text-center mt-4 mb-4';
+                completionMessage.style.animation = 'fadeIn 1s ease-in-out';
+                completionMessage.style.boxShadow = '0 8px 30px rgba(76, 175, 80, 0.3)';
+                completionMessage.style.borderRadius = '15px';
+                completionMessage.style.padding = '25px';
+                completionMessage.innerHTML = `
+                    <h3 style="color: #2e7d32; font-weight: 700;">Congratulations! You've completed the game!</h3>
+                    <p class="lead">Your completion time: <strong>${formattedTime}</strong></p>
+                    <p>Successful matches: <strong>${matchedPairs}/${diseases.length}</strong> pairs</p>
+                `;
+
+                // 添加到游戏容器前面
+                document.getElementById('gameContainer').parentNode.insertBefore(
+                    completionMessage,
+                    document.getElementById('gameContainer')
+                );
+
+                // 隐藏计时器
+                document.getElementById('timerDisplay').style.display = 'none';
+
+                // 滚动到完成消息
+                completionMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function startGame() {
+            // 清除之前的完成消息
+            const previousCompletionMessages = document.querySelectorAll('.alert.alert-success');
+            previousCompletionMessages.forEach(msg => msg.remove());
+
+            // 重置匹配对数计数
+            matchedPairs = 0;
+
+            // 开始计时
+            startTime = new Date();
+            elapsedTimeInSeconds = 0;
+            document.getElementById('timerClock').textContent = '00:00';
+            document.getElementById('timerDisplay').style.display = 'flex';
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function shuffleGame() {
+            clearInterval(timerInterval);
+            document.getElementById('timerDisplay').style.display = 'none';
+            startTime = null;
+            createGame();
+        }
+
+        function endGame() {
+            if (startTime) {
+                // 停止计时器
+                clearInterval(timerInterval);
+                document.getElementById('timerDisplay').style.display = 'none';
+                const formattedTime = formatElapsedTime(elapsedTimeInSeconds);
+                startTime = null;
+
+                // 清除之前的完成消息
+                const previousCompletionMessages = document.querySelectorAll('.alert.alert-success');
+                previousCompletionMessages.forEach(msg => msg.remove());
+
+                // 更新模态弹窗内容
+                document.getElementById('matchedPairsCount').textContent = `${matchedPairs}/${diseases.length}`;
+                document.getElementById('gameTime').textContent = formattedTime;
+
+                // 显示模态弹窗
+                const backdrop = document.getElementById('gameEndBackdrop');
+                const modal = document.getElementById('gameEndModal');
+
+                backdrop.classList.add('show');
+                modal.classList.add('show');
+            }
+        }
+
+        // 添加模态弹窗确认按钮事件监听
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('confirmEndGame').addEventListener('click', function () {
+                // 隐藏模态弹窗
+                document.getElementById('gameEndBackdrop').classList.remove('show');
+                document.getElementById('gameEndModal').classList.remove('show');
+            });
+        });
+    </script>
+</body>
+
+</html>
